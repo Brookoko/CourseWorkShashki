@@ -1,19 +1,17 @@
 ﻿using System.Reflection;
 using System.Runtime.InteropServices;
-using AppContext;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("CourseWorkShashki")]
+[assembly: AssemblyTitle("DependencyInjection")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("CourseWorkShashki")]
+[assembly: AssemblyProduct("DependencyInjection")]
 [assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-[assembly: AssemblyModule]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 
@@ -21,7 +19,7 @@ using AppContext;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("9E3ACEC6-180F-48C3-8D3D-263A41B06118")]
+[assembly: Guid("3A4444A4-A3DF-43C6-82BD-D4EFA98C83C1")]
 
 // Version information for an assembly consists of the following four values:
 //
