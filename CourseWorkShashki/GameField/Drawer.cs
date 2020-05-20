@@ -9,7 +9,7 @@ namespace GameField
 
         private readonly string[,] leftCorners = { {"┌", "┬"}, {"├", "┼"} };
         private readonly string[,] rightCorners = { {"┐", "┬"}, {"┤", "┼"} };
-        private readonly string[] checkers = { "◎", "◉", " " };
+        private readonly string[] checkers = { "◎", "◉", "◯", "◍", " " };
         
         public void Draw(Field field)
         {
@@ -51,7 +51,7 @@ namespace GameField
             for (var j = 0; j < 8; j++)
             {
                 var checker = matrix[i, j].Checker;
-                var index = checker == null ? 2 : (int) checker.Color;
+                var index = checker == null ? 4 : (int) checker.Color;
                 builder.Append(' ', Width/2)
                     .Append(checkers[index])
                     .Append(' ', Width/2)

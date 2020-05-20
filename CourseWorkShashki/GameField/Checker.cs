@@ -4,6 +4,8 @@ namespace GameField
     {
         public Color Color { get; }
         
+        public bool IsDame { get; set; }
+        
         public Checker(Color color)
         {
             Color = color;
