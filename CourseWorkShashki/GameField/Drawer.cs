@@ -15,20 +15,25 @@ namespace GameField
         {
             Console.OutputEncoding = Encoding.UTF8;
             Console.Clear();
-            Console.WriteLine("      0     1     2     3     4     5     6     7 ");
+            DrawUpperHeader();
             for (var i = 0; i < 8; i++)
             {
                 DrawUpperLine(field.Positions, i);
             }
-            var bottom = new StringBuilder()
-                .Append(' ', 3)
-                .Append('└');
-            for (var i = 0; i < 7; i++)
+            DrawBottom();
+        }
+        
+        private void DrawUpperHeader()
+        {
+            var upper = new StringBuilder()
+                .Append(' ', 6)
+                .Append(0);
+            for (var i = 1; i < 8; i++)
             {
-                bottom.Append('─', Width).Append('┴');
+                upper.Append(' ', Width)
+                    .Append(i);
             }
-            bottom.Append('─', Width).Append('┘');
-            Console.WriteLine(bottom.ToString());
+            Console.WriteLine(upper.ToString());
         }
         
         private void DrawUpperLine(Position[,] matrix, int i)
@@ -74,6 +79,19 @@ namespace GameField
             x = x == 0 ? 0 : 1;
             y = y == 7 ? 0 : 1;
             return rightCorners[x, y];
+        }
+        
+        private void DrawBottom()
+        {
+            var bottom = new StringBuilder()
+                .Append(' ', 3)
+                .Append('└');
+            for (var i = 0; i < 7; i++)
+            {
+                bottom.Append('─', Width).Append('┴');
+            }
+            bottom.Append('─', Width).Append('┘');
+            Console.WriteLine(bottom.ToString());
         }
     }
 }
