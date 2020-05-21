@@ -36,24 +36,32 @@ namespace AppSetup
         
         private void Move(Parameters parameters)
         {
-            var x1 = parameters.Ints[0];
-            var y1 = parameters.Ints[1];
-            var x2 = parameters.Ints[2];
-            var y2 = parameters.Ints[3];
-            var from = field.Positions[x1, y1];
-            var to = field.Positions[x2, y2];
-            var rejections = new List<string>();
-            var movement = MovementProvider.RuleFor(from, to, field, rejections);
-            if (movement == null)
+            var from = field.GetPosition(parameters.Ints[0], parameters.Ints[1]);
+            var to = field.GetPosition(parameters.Ints[1], parameters.Ints[2]);
+            if (ValidPositions(from, to) && TryGetMovement(from, to, out var rule))
             {
-                foreach (var reason in rejections)
-                {
-                    Console.WriteLine(reason);
-                }
-                return;
+                CommandQueue.Execute(rule.ToCommand(from, to, field));
+                Draw();
             }
-            CommandQueue.Execute(movement.ToCommand(from, to, field));
-            Draw();
+        }
+        
+        private bool ValidPositions(Position from, Position to)
+        {
+            if (from == null) Console.WriteLine("Invalid start position");
+            else if (to == null) Console.WriteLine("Invalid target position");
+            return from != null && to != null;
+        }
+        
+        private bool TryGetMovement(Position from, Position to, out IMovementRule rule)
+        {
+            var rejections = new List<string>();
+            rule = MovementProvider.RuleFor(from, to, field, rejections);
+            if (rule != null) return true;
+            foreach (var reason in rejections)
+            {
+                Console.WriteLine(reason);
+            }
+            return false;
         }
         
         private void Undo()

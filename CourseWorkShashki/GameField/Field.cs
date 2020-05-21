@@ -37,6 +37,15 @@ namespace GameField
             }
         }
         
+        public Position GetPosition(int x, int y)
+        {
+            if (x >= 0 && x <= 7 && y >= 0 && y <= 7)
+            {
+                return Positions[x, y];
+            }
+            return null;
+        }
+        
         public Position OpponentPawnOnLine(Position from, Position to)
         {
             return PawnsOnLine(from, to).FirstOrDefault(p => p.Pawn.Color != from.Pawn.Color);
