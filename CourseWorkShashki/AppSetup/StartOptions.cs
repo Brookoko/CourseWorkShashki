@@ -25,6 +25,8 @@ namespace AppSetup
         {
             AddOption("draw", _ => Draw());
             AddOption("move #x1 #y1 #x2 #y2", Move);
+            AddOption("undo", _ => Undo());
+            Draw();
         }
         
         private void Draw()
@@ -51,6 +53,12 @@ namespace AppSetup
                 return;
             }
             CommandQueue.Execute(movement.ToCommand(from, to, field));
+            Draw();
+        }
+        
+        private void Undo()
+        {
+            CommandQueue.Undo();
             Draw();
         }
     }
