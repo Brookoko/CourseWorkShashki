@@ -14,7 +14,6 @@ namespace GameField
         public void Draw(Field field)
         {
             Console.OutputEncoding = Encoding.UTF8;
-            Console.Clear();
             DrawUpperHeader();
             for (var i = 0; i < 8; i++)
             {

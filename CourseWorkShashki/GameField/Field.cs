@@ -1,5 +1,9 @@
 namespace GameField
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public class Field
     {
         public readonly Position[,] Positions = new Position[8, 8];
@@ -31,6 +35,28 @@ namespace GameField
                 var j = 63 - k - i * 8 + (i % 2 - 1);
                 Positions[i, j].Pawn = checkers[k / 2 + 12];
             }
+        }
+        
+        public Position OpponentPawnOnLine(Position from, Position to)
+        {
+            return PawnsOnLine(from, to).FirstOrDefault(p => p.Pawn.Color != from.Pawn.Color && p != to);
+        }
+        
+        public List<Position> PawnsOnLine(Position from, Position to)
+        {
+            var x = from.X;
+            var y = from.Y;
+            var dx = to.X == from.X ? 0 : (to.X - from.X) / Math.Abs(to.X - from.X);
+            var dy = to.Y == from.Y ? 0 : (to.Y - from.Y) / Math.Abs(to.Y - from.Y);
+            var pawns = new List<Position>();
+            while (x != to.X || y != to.Y)
+            {
+                x += dx;
+                y += dy;
+                var pos = Positions[x, y];
+                if (pos.Pawn != null) pawns.Add(pos);
+            }
+            return pawns;
         }
     }
 }

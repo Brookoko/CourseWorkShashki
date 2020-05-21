@@ -1,12 +1,13 @@
 namespace Movements
 {
     using System;
+    using Checkers;
     using Commands;
     using GameField;
 
     public class SimpleMovementRule : IMovementRule
     {
-        public string Name => "Move";
+        public string Name => "SimpleMove";
         
         public bool IsValid(Position from, Position to, Field field, out string reason)
         {
@@ -15,7 +16,12 @@ namespace Movements
                 reason = "No pawn is to be moved";
                 return false;
             }
-            if (Math.Abs(to.Y - from.Y) != 1 || to.X - from.X != from.Pawn.Color.ToDirection())
+            if (from.Pawn.IsDame)
+            {
+                reason = "Pawn is a dame";
+                return false;
+            }
+            if (!Utils.IsDiagonalInDirection(from, to, from.Pawn.Color.ToDirection()))
             {
                 reason = "Invalid target position";;
                 return false;

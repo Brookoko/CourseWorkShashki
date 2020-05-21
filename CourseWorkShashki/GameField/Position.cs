@@ -22,9 +22,31 @@ namespace GameField
         
         public bool TryTurnToDame()
         {
-            if (Pawn.Color == Color.White && X == 0) return Pawn.IsDame = true;
-            if (Pawn.Color == Color.Black && X == 7) return Pawn.IsDame = true;
+            if (!Pawn.IsDame && Pawn.Color == Color.White && X == 0) return Pawn.IsDame = true;
+            if (!Pawn.IsDame && Pawn.Color == Color.Black && X == 7) return Pawn.IsDame = true;
             return false;
         }
+        
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != GetType()) return false;
+            return Equals((Position) obj);
+        }
+        
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return (X * 397) ^ Y;
+            }
+        }
+        
+        private bool Equals(Position other) => X == other.X && Y == other.Y;
+        
+        public static bool operator ==(Position left, Position right) => Equals(left, right);
+        
+        public static bool operator !=(Position left, Position right) => !Equals(left, right);
     }
 }

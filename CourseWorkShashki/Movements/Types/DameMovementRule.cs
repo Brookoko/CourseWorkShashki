@@ -1,13 +1,12 @@
 namespace Movements
 {
-    using System;
     using Checkers;
     using Commands;
     using GameField;
-    
-    public class FightRule : IMovementRule
+
+    public class DameMovementRule : IMovementRule
     {
-        public string Name => "Fight";
+        public string Name => "DameMove";
         
         public bool IsValid(Position from, Position to, Field field, out string reason)
         {
@@ -16,28 +15,29 @@ namespace Movements
                 reason = "No pawn is to be moved";
                 return false;
             }
-            if (from.Pawn.IsDame)
+            if (!from.Pawn.IsDame)
             {
-                reason = "Pawn is a dame";
+                reason = "Pawn is not a dame";
                 return false;
             }
-            if (!Utils.IsDiagonal(from, to, 2))
+            if (!Utils.IsStraightLine(from, to) && !Utils.IsDiagonal(from, to))
             {
-                reason = "Invalid target";
+                reason = "Invalid movement direction";
                 return false;
             }
-            if (field.OpponentPawnOnLine(from, to) == null)
+            var pawns = field.PawnsOnLine(from, to);
+            if (pawns.Count > 0)
             {
-                reason = "No opponent pawn in the way";
+                reason = "Pawns are in the way";
                 return false;
             }
-            reason = "Valid Move";
+            reason = "Valid move";
             return true;
         }
         
         public ICommand ToCommand(Position from, Position to, Field field)
         {
-            return new FightCommand(from, to, field.OpponentPawnOnLine(from, to));
+            return new MoveCommand(from, to);
         }
     }
 }

@@ -13,7 +13,8 @@ namespace Movements
         private readonly List<IMovementRule> rules = new List<IMovementRule>
         {
             new SimpleMovementRule(),
-            new FightRule()
+            new FightRule(),
+            new DameMovementRule()
         };
         
         public IMovementRule RuleFor(Position from, Position to, Field field, List<string> rejections)
