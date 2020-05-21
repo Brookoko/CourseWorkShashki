@@ -23,8 +23,8 @@ namespace AppSetup
         
         public StartOptions()
         {
-            AddOption("--draw", _ => Draw());
-            AddOption("--move #x1 #y1 #x2 #y2", Move);
+            AddOption("draw", _ => Draw());
+            AddOption("move #x1 #y1 #x2 #y2", Move);
         }
         
         private void Draw()

@@ -51,7 +51,7 @@ namespace GameField
             for (var j = 0; j < 8; j++)
             {
                 var pawn = matrix[i, j].Pawn;
-                var index = pawn == null ? 4 : (int) pawn.Color;
+                var index = pawn == null ? 4 : (int) pawn.Color + (pawn.IsDame ? 2 : 0);
                 builder.Append(' ', Width/2)
                     .Append(pawns[index])
                     .Append(' ', Width/2)
