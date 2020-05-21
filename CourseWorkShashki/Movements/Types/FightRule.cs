@@ -23,7 +23,7 @@ namespace Movements
             }
             if (!Utils.IsDiagonal(from, to, 2))
             {
-                reason = "Invalid target";
+                reason = "Invalid target position";
                 return false;
             }
             if (field.OpponentPawnOnLine(from, to) == null)

@@ -6,7 +6,7 @@ namespace Movements
 
     public class FightDameRule : IMovementRule
     {
-        public string Name => "Fight";
+        public string Name => "DameFight";
         
         public bool IsValid(Position from, Position to, Field field, out string reason)
         {
