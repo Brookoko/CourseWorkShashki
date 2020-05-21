@@ -9,7 +9,7 @@ namespace GameField
 
         private readonly string[,] leftCorners = { {"┌", "┬"}, {"├", "┼"} };
         private readonly string[,] rightCorners = { {"┐", "┬"}, {"┤", "┼"} };
-        private readonly string[] checkers = { "◎", "◉", "◯", "◍", " " };
+        private readonly string[] pawns = { "◎", "◉", "◯", "◍", " " };
         
         public void Draw(Field field)
         {
@@ -50,10 +50,10 @@ namespace GameField
                 .Append('│');
             for (var j = 0; j < 8; j++)
             {
-                var checker = matrix[i, j].Checker;
-                var index = checker == null ? 4 : (int) checker.Color;
+                var pawn = matrix[i, j].Pawn;
+                var index = pawn == null ? 4 : (int) pawn.Color;
                 builder.Append(' ', Width/2)
-                    .Append(checkers[index])
+                    .Append(pawns[index])
                     .Append(' ', Width/2)
                     .Append('│');
             }
@@ -62,7 +62,7 @@ namespace GameField
         
         private string Upper(Position pos, int width)
         {
-            return new StringBuilder(ToLeftCorner(pos.x, pos.y))
+            return new StringBuilder(ToLeftCorner(pos.X, pos.Y))
                 .Append('─', width)
                 .ToString();
         }

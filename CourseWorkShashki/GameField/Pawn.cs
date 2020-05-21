@@ -1,12 +1,12 @@
 namespace GameField
 {
-    public class Checker
+    public class Pawn
     {
         public Color Color { get; }
         
         public bool IsDame { get; set; }
         
-        public Checker(Color color)
+        public Pawn(Color color)
         {
             Color = color;
         }

@@ -41,10 +41,13 @@
         <Compile Include="AppSetup\App.cs" />
         <Compile Include="AppSetup\AppModule.cs" />
         <Compile Include="AppSetup\StartOptions.cs" />
+        <Compile Include="Commands\ICommand.cs" />
+        <Compile Include="Commands\MoveCommand.cs" />
         <Compile Include="GameField\Drawer.cs" />
         <Compile Include="GameField\Field.cs" />
         <Compile Include="GameField\Position.cs" />
-        <Compile Include="GameField\Checker.cs" />
+        <Compile Include="GameField\Pawn.cs" />
+        <Compile Include="Movements\Movement.cs" />
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>

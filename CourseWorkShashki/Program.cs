@@ -1,4 +1,4 @@
-﻿namespace lab6
+﻿namespace Checkers
 {
     using AppSetup;
     using AppContext = AppContext.AppContext;

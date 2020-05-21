@@ -2,15 +2,22 @@ namespace GameField
 {
     public class Position
     {
-        public Checker Checker { get; set; }
+        public Pawn Pawn { get; set; }
         
-        public readonly int x;
-        public readonly int y;
+        public readonly int X;
+        public readonly int Y;
 
         public Position(int x, int y)
         {
-            this.x = x;
-            this.y = y;
+            X = x;
+            Y = y;
+        }
+        
+        public Pawn RemovePawn()
+        {
+            var pawn = Pawn;
+            Pawn = null;
+            return pawn;
         }
     }
 }
