@@ -1,12 +1,21 @@
 namespace AppSetup
 {
     using System;
+    using System.Collections.Generic;
+    using Commands;
     using ConsoleApp;
+    using DependencyInjection;
     using GameField;
     using Movements;
     
     public class StartOptions : Options
     {
+        [Inject]
+        public IMovementProvider MovementProvider { get; set; }
+
+        [Inject]
+        public ICommandQueue CommandQueue { get; set; }
+        
         public override string Id => "Start";
         
         private readonly Field field = new Field();
@@ -23,7 +32,7 @@ namespace AppSetup
             drawer.Draw(field);
         }
         
-        private async void Move(Parameters parameters)
+        private void Move(Parameters parameters)
         {
             var x1 = parameters.Ints[0];
             var y1 = parameters.Ints[1];
@@ -31,14 +40,17 @@ namespace AppSetup
             var y2 = parameters.Ints[3];
             var from = field.Positions[x1, y1];
             var to = field.Positions[x2, y2];
-            var movement = new Movement(from, to);
-            if (!movement.IsValid())
+            var list = new List<string>();
+            var movement = MovementProvider.RuleFor(from, to, list);
+            if (movement == null)
             {
-                Console.WriteLine("Invalid move");
+                foreach (var reason in list)
+                {
+                    Console.WriteLine(reason);
+                }
                 return;
             }
-            var command = movement.ToCommand();
-            command.Execute();
+            CommandQueue.Execute(movement.ToCommand(from, to));
             Draw();
         }
     }
