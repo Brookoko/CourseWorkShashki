@@ -31,7 +31,7 @@ namespace Movements
                 reason = "No opponent pawn in the way";
                 return false;
             }
-            reason = "Valid Move";
+            reason = "Valid move";
             return true;
         }
         

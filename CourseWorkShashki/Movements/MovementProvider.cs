@@ -14,7 +14,8 @@ namespace Movements
         {
             new SimpleMovementRule(),
             new FightRule(),
-            new DameMovementRule()
+            new DameMovementRule(),
+            new FightDameRule()
         };
         
         public IMovementRule RuleFor(Position from, Position to, Field field, List<string> rejections)

@@ -4,9 +4,9 @@ namespace Movements
     using Commands;
     using GameField;
 
-    public class DameMovementRule : IMovementRule
+    public class FightDameRule : IMovementRule
     {
-        public string Name => "DameMove";
+        public string Name => "Fight";
         
         public bool IsValid(Position from, Position to, Field field, out string reason)
         {
@@ -26,9 +26,9 @@ namespace Movements
                 return false;
             }
             var pawns = field.PawnsOnLine(from, to);
-            if (pawns.Count > 0 || to.Pawn != null)
+            if (pawns.Count != 1 || to.Pawn != null)
             {
-                reason = "Pawns are in the way";
+                reason = "Invalid attack";
                 return false;
             }
             reason = "Valid move";
@@ -37,7 +37,7 @@ namespace Movements
         
         public ICommand ToCommand(Position from, Position to, Field field)
         {
-            return new MoveCommand(from, to);
+            return new FightCommand(from, to, field.OpponentPawnOnLine(from, to));
         }
     }
 }

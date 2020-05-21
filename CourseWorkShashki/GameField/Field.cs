@@ -39,7 +39,7 @@ namespace GameField
         
         public Position OpponentPawnOnLine(Position from, Position to)
         {
-            return PawnsOnLine(from, to).FirstOrDefault(p => p.Pawn.Color != from.Pawn.Color && p != to);
+            return PawnsOnLine(from, to).FirstOrDefault(p => p.Pawn.Color != from.Pawn.Color);
         }
         
         public List<Position> PawnsOnLine(Position from, Position to)
@@ -54,7 +54,7 @@ namespace GameField
                 x += dx;
                 y += dy;
                 var pos = Positions[x, y];
-                if (pos.Pawn != null) pawns.Add(pos);
+                if (pos.Pawn != null && pos != to) pawns.Add(pos);
             }
             return pawns;
         }
