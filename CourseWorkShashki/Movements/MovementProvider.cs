@@ -5,25 +5,26 @@ namespace Movements
     
     public interface IMovementProvider
     {
-        IMovementRule RuleFor(Position from, Position to, List<string> rejections);
+        IMovementRule RuleFor(Position from, Position to, Field field, List<string> rejections);
     }
     
     public class MovementProvider : IMovementProvider
     {
         private readonly List<IMovementRule> rules = new List<IMovementRule>
         {
-            new SimpleMovementRule()
+            new SimpleMovementRule(),
+            new FightRule()
         };
         
-        public IMovementRule RuleFor(Position from, Position to, List<string> rejections)
+        public IMovementRule RuleFor(Position from, Position to, Field field, List<string> rejections)
         {
             foreach (var rule in rules)
             {
-                if (rule.IsValid(from, to, out var reason))
+                if (rule.IsValid(from, to, field, out var reason))
                 {
                     return rule;
                 }
-                rejections.Add(rule.GetType() + ": " + reason);
+                rejections.Add(rule.Name + ": " + reason);
             }
             return null;
         }

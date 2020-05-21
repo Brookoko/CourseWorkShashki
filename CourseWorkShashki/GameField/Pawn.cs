@@ -20,6 +20,6 @@ namespace GameField
 
     public static class ColorExtension
     {
-        public static int ToDirection(this Color color) => color == Color.Black ? -1 : 1;
+        public static int ToDirection(this Color color) => color == Color.Black ? 1 : -1;
     } 
 }

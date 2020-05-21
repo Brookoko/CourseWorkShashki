@@ -40,17 +40,17 @@ namespace AppSetup
             var y2 = parameters.Ints[3];
             var from = field.Positions[x1, y1];
             var to = field.Positions[x2, y2];
-            var list = new List<string>();
-            var movement = MovementProvider.RuleFor(from, to, list);
+            var rejections = new List<string>();
+            var movement = MovementProvider.RuleFor(from, to, field, rejections);
             if (movement == null)
             {
-                foreach (var reason in list)
+                foreach (var reason in rejections)
                 {
                     Console.WriteLine(reason);
                 }
                 return;
             }
-            CommandQueue.Execute(movement.ToCommand(from, to));
+            CommandQueue.Execute(movement.ToCommand(from, to, field));
             Draw();
         }
     }

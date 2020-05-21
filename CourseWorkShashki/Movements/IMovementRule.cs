@@ -5,8 +5,10 @@ namespace Movements
 
     public interface IMovementRule
     {
-        bool IsValid(Position from, Position to, out string reason);
+        string Name { get; }
         
-        ICommand ToCommand(Position from, Position to);
+        bool IsValid(Position from, Position to, Field field, out string reason);
+        
+        ICommand ToCommand(Position from, Position to, Field field);
     }
 }
