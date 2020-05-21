@@ -52,8 +52,8 @@
         <Compile Include="Movements\MovementProvider.cs" />
         <Compile Include="Movements\IMovementRule.cs" />
         <Compile Include="Movements\Types\DameMovementRule.cs" />
-        <Compile Include="Movements\Types\FightDameRule.cs" />
-        <Compile Include="Movements\Types\FightRule.cs" />
+        <Compile Include="Movements\Types\DameFightRule.cs" />
+        <Compile Include="Movements\Types\SimpleFightRule.cs" />
         <Compile Include="Movements\Types\SimpleMovementRule.cs" />
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />

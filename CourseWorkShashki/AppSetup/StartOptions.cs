@@ -37,7 +37,7 @@ namespace AppSetup
         private void Move(Parameters parameters)
         {
             var from = field.GetPosition(parameters.Ints[0], parameters.Ints[1]);
-            var to = field.GetPosition(parameters.Ints[1], parameters.Ints[2]);
+            var to = field.GetPosition(parameters.Ints[2], parameters.Ints[3]);
             if (ValidPositions(from, to) && TryGetMovement(from, to, out var rule))
             {
                 CommandQueue.Execute(rule.ToCommand(from, to, field));

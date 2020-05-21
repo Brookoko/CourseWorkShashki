@@ -10,16 +10,6 @@ namespace Movements
         
         public bool IsValid(Position from, Position to, Field field, out string reason)
         {
-            if (from.Pawn == null)
-            {
-                reason = "No pawn is to be moved";
-                return false;
-            }
-            if (!from.Pawn.IsDame)
-            {
-                reason = "Pawn is not a dame";
-                return false;
-            }
             if (!Utils.IsStraightLine(from, to) && !Utils.IsDiagonal(from, to))
             {
                 reason = "Invalid movement direction";
