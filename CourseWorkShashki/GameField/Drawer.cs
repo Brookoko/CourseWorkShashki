@@ -10,11 +10,13 @@ namespace GameField
         private readonly string[,] leftCorners = { {"┌", "┬"}, {"├", "┼"} };
         private readonly string[,] rightCorners = { {"┐", "┬"}, {"┤", "┼"} };
         private readonly string[] pawns = { "◎", "◉", "◯", "◍", " " };
+
+        private readonly string[] letters = {"A", "B", "C", "D", "E", "F", "G", "H"};
         
         public void Draw(Field field)
         {
             Console.OutputEncoding = Encoding.UTF8;
-            DrawUpperHeader();
+            DrawLetters();
             for (var i = 0; i < 8; i++)
             {
                 DrawUpperLine(field.Positions, i);
@@ -22,17 +24,17 @@ namespace GameField
             DrawBottom();
         }
         
-        private void DrawUpperHeader()
+        private void DrawLetters()
         {
-            var upper = new StringBuilder()
+            var letterLine = new StringBuilder()
                 .Append(' ', 6)
-                .Append(0);
+                .Append(letters[0]);
             for (var i = 1; i < 8; i++)
             {
-                upper.Append(' ', Width)
-                    .Append(i);
+                letterLine.Append(' ', Width)
+                    .Append(letters[i]);
             }
-            Console.WriteLine(upper.ToString());
+            Console.WriteLine(letterLine.ToString());
         }
         
         private void DrawUpperLine(Position[,] matrix, int i)
@@ -44,7 +46,7 @@ namespace GameField
             }
             builder.Append(ToRightCorner(i, 7))
                 .AppendLine()
-                .Append(i)
+                .Append(8 - i)
                 .Append(' ', 2)
                 .Append('│');
             for (var j = 0; j < 8; j++)
@@ -56,6 +58,7 @@ namespace GameField
                     .Append(' ', Width/2)
                     .Append('│');
             }
+            builder.Append(' ', 2).Append(8 - i);
             Console.WriteLine(builder.ToString());
         }
         
@@ -91,6 +94,7 @@ namespace GameField
             }
             bottom.Append('─', Width).Append('┘');
             Console.WriteLine(bottom.ToString());
+            DrawLetters();
         }
     }
 }

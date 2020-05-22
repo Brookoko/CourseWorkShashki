@@ -31,16 +31,31 @@ namespace AppSetup
         private (Position from, Position to) ToPositions(string command)
         {
             var parameters = ToParameters(command);
-            if (parameters.Ints.Count != 4) return (null, null);
-            var from = field.GetPosition(parameters.Ints[0], parameters.Ints[1]);
-            var to = field.GetPosition(parameters.Ints[2], parameters.Ints[3]);
+            if (parameters.Strings.Count != 2) return (null, null);
+            var from = ToPosition(parameters.Strings[0]);
+            var to = ToPosition(parameters.Strings[1]);
             return (from, to);
         }
 
         private Parameters ToParameters(string command)
         {
             return command.Trim().Split(' ')
-                .Aggregate(new Parameters(), (acc, cur) => acc.AddParameter("#", cur));
+                .Aggregate(new Parameters(), (acc, cur) => acc.AddParameter("$", cur));
+        }
+        
+        private Position ToPosition(string input)
+        {
+            if (input.Length != 2) return null;
+            input = input.ToUpperInvariant();
+            var letter = input[0];
+            var number = input[1];
+            if (int.TryParse(number.ToString(), out var num))
+            {
+                var y = letter - 65;
+                var x = 8 - num;
+                return field.GetPosition(x, y);
+            }
+            return null;
         }
         
         private bool ValidPositions(Position from, Position to)

@@ -38,7 +38,6 @@ namespace Movements
         
         private IMovementRule GetSimpleRule(Position from, Position to, Field field, List<string> rejections)
         {
-            Console.WriteLine($"{from.X} {from.Y} {to.X} {to.Y}");
             foreach (var rule in simpleMoves)
             {
                 if (rule.IsValid(from, to, field, out var reason)) return rule;
