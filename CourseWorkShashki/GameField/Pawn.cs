@@ -24,9 +24,23 @@ namespace GameField
     {
         public static int ToDirection(this Color color) => color == Color.Black ? 1 : -1;
         
+        public static Color Oppose(this Color color) => color == Color.Black ? Color.White : Color.Black;
+        
         public static bool CanMove(this Pawn pawn, Status status)
         {
-            return status.ToString().Contains(pawn.Color.ToString());
-        } 
+            return pawn.Color == status.ToColor();
+        }
+        
+        public static Color ToColor(this Status status)
+        {
+            switch (status)
+            {
+                case Status.WhiteAttack:
+                case Status.WhiteMove: return Color.White;
+                case Status.BlackAttack:
+                case Status.BlackMove: return Color.Black;
+                default: return Color.White;
+            }
+        }
     } 
 }

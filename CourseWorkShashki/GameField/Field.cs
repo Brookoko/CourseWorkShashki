@@ -67,5 +67,32 @@ namespace GameField
             }
             return pawns;
         }
+        
+        public bool IsInAttackingState(Color color)
+        {
+            return Positions.Cast<Position>()
+                .Any(position => position.Pawn != null &&
+                                 position.Pawn.Color == color &&
+                                 IsInAttackingState(position));
+        }
+        
+        private bool IsInAttackingState(Position position)
+        {
+            if (position.Pawn == null) return false;
+            return PossibleAttackPositions(position)
+                .Any(attackPosition => OpponentPawnOnLine(position, attackPosition) != null);
+        }
+        
+        private IEnumerable<Position> PossibleAttackPositions(Position position)
+        {
+            return new[]
+                {
+                    GetPosition(position.X + 2, position.Y + 2),
+                    GetPosition(position.X + 2, position.Y - 2),
+                    GetPosition(position.X - 2, position.Y + 2),
+                    GetPosition(position.X - 2, position.Y - 2)
+                }
+                .Where(p => p != null);
+        }
     }
 }

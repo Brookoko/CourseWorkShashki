@@ -3,11 +3,15 @@ namespace AppSetup
     using Checkers.GameStatus;
     using ConsoleApp;
     using DependencyInjection;
+    using GameField;
 
     public class App : ConsoleProgram
     {
         [Inject]
         public IGameStatusProvider GameStatusProvider { get; set; }
+        
+        [Inject]
+        public IFieldProvider FieldProvider { get; set; }
         
         public App(IInjectionBinder binder)
         {
@@ -16,6 +20,7 @@ namespace AppSetup
             start.AddOption("exit", _ => StopProcessingInput());
             start.AddOption("game", _ =>
             {
+                FieldProvider.CreateNew();
                 GameStatusProvider.UpdateStatus(Status.WhiteMove);
                 ChangeOptions(game);
             });

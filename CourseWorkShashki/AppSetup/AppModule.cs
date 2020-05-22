@@ -3,6 +3,7 @@ namespace AppSetup
     using AppContext;
     using Checkers.GameStatus;
     using Commands;
+    using GameField;
     using Movements;
     
     public class AppModule : ModuleInstaller
@@ -16,6 +17,7 @@ namespace AppSetup
             InjectorBinder.Bind<IMovementProvider>().To<MovementProvider>().ToSingleton();
             InjectorBinder.Bind<ICommandQueue>().To<CommandQueue>().ToSingleton();
             InjectorBinder.Bind<IGameStatusProvider>().To<GameStatusProvider>().ToSingleton();
+            InjectorBinder.Bind<IFieldProvider>().To<FieldProvider>().ToSingleton();
             
             CommandBinder.Bind<StartApp>()
                 .To<StartModules>()

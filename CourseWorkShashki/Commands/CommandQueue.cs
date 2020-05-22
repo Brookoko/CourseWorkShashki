@@ -3,7 +3,8 @@ namespace Commands
     using System.Collections.Generic;
     using Checkers.GameStatus;
     using DependencyInjection;
-    
+    using GameField;
+
     public interface ICommandQueue
     {
         void Execute(ICommand command);

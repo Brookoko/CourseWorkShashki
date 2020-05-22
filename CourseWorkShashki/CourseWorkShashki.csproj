@@ -48,6 +48,7 @@
         <Compile Include="Commands\Types\MoveCommand.cs" />
         <Compile Include="GameField\Drawer.cs" />
         <Compile Include="GameField\Field.cs" />
+        <Compile Include="GameField\FieldProvider.cs" />
         <Compile Include="GameField\Position.cs" />
         <Compile Include="GameField\Pawn.cs" />
         <Compile Include="Movements\MovementProvider.cs" />

@@ -1,7 +1,6 @@
 namespace AppSetup
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using Checkers.GameStatus;
     using Commands;
@@ -21,9 +20,11 @@ namespace AppSetup
         [Inject]
         public IGameStatusProvider GameStatusProvider { get; set; }
         
+        [Inject]
+        public IFieldProvider FieldProvider { get; set; }
+        
         public string Id => "Game";
         
-        private readonly Field field = new Field();
         private readonly Drawer drawer = new Drawer();
         
         public bool ValidateInput(string command)
@@ -57,7 +58,7 @@ namespace AppSetup
             {
                 var y = letter - 65;
                 var x = 8 - num;
-                return field.GetPosition(x, y);
+                return FieldProvider.Field.GetPosition(x, y);
             }
             return null;
         }
@@ -71,26 +72,22 @@ namespace AppSetup
         
         private bool TryGetMovement(Position from, Position to, out IMovementRule rule)
         {
-            var rejections = new List<string>();
-            rule = MovementProvider.RuleFor(from, to, field, rejections);
+            rule = MovementProvider.RuleFor(from, to, out var reason);
             if (rule != null) return true;
-            foreach (var reason in rejections)
-            {
-                Console.WriteLine(reason);
-            }
+            Console.WriteLine(reason);
             return false;
         }
 
         public void RunCommand(string command)
         {
             var (from, to) = ToPositions(command);
-            var rule = MovementProvider.RuleFor(from, to, field, new List<string>());
-            CommandQueue.Execute(rule.ToCommand(from, to, field));
+            var rule = MovementProvider.RuleFor(from, to, out _);
+            CommandQueue.Execute(rule.ToCommand(from, to, FieldProvider.Field));
         }
         
         public void PrintPrompt()
         {
-            drawer.Draw(field);
+            drawer.Draw(FieldProvider.Field);
             Console.Write(GameStatusProvider.Status + ": ");
         }
     }

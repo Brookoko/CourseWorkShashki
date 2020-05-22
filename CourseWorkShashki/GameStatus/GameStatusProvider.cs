@@ -1,5 +1,8 @@
 namespace Checkers.GameStatus
 {
+    using DependencyInjection;
+    using GameField;
+    
     public interface IGameStatusProvider
     {
         Status Status { get; }
@@ -11,6 +14,9 @@ namespace Checkers.GameStatus
     
     public class GameStatusProvider : IGameStatusProvider
     {
+        [Inject]
+        public IFieldProvider FieldProvider { get; set; }
+        
         public Status Status { get; private set; }
         
         public void UpdateStatus(Status status)
@@ -20,8 +26,15 @@ namespace Checkers.GameStatus
         
         public void GoToNext()
         {
-            if (Status == Status.WhiteMove) UpdateStatus(Status.BlackMove);
-            else if (Status == Status.BlackMove) UpdateStatus(Status.WhiteMove);
+            UpdateStatus(StatusFor(Status.ToColor()));
+        }
+        
+        private Status StatusFor(Color color)
+        {
+            color = color.Oppose();
+            if (FieldProvider.Field.IsInAttackingState(color))
+                return color == Color.White ? Status.WhiteAttack : Status.BlackAttack;
+            return color == Color.White ? Status.WhiteMove : Status.BlackMove;
         }
     }
 }
