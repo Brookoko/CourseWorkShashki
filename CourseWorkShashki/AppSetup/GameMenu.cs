@@ -3,6 +3,7 @@ namespace AppSetup
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Checkers.GameStatus;
     using Commands;
     using ConsoleApp;
     using DependencyInjection;
@@ -16,6 +17,9 @@ namespace AppSetup
         
         [Inject]
         public ICommandQueue CommandQueue { get; set; }
+        
+        [Inject]
+        public IGameStatusProvider GameStatusProvider { get; set; }
         
         public string Id => "Game";
         
@@ -87,7 +91,7 @@ namespace AppSetup
         public void PrintPrompt()
         {
             drawer.Draw(field);
-            Console.Write("Move: ");
+            Console.Write(GameStatusProvider.Status + ": ");
         }
     }
 }

@@ -1,6 +1,8 @@
 namespace Commands
 {
     using System.Collections.Generic;
+    using Checkers.GameStatus;
+    using DependencyInjection;
     
     public interface ICommandQueue
     {
@@ -11,12 +13,16 @@ namespace Commands
     
     public class CommandQueue : ICommandQueue
     {
+        [Inject]
+        public IGameStatusProvider GameStatusProvider { get; set; }
+        
         private readonly Stack<ICommand> stacks = new Stack<ICommand>();
         
         public void Execute(ICommand command)
         {
             command.Execute();
             stacks.Push(command);
+            GameStatusProvider.GoToNext();
         }
         
         public void Undo()

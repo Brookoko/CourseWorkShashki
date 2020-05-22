@@ -5,6 +5,8 @@ namespace Checkers.GameStatus
         Status Status { get; }
 
         void UpdateStatus(Status status);
+        
+        void GoToNext();
     }
     
     public class GameStatusProvider : IGameStatusProvider
@@ -14,6 +16,12 @@ namespace Checkers.GameStatus
         public void UpdateStatus(Status status)
         {
             Status = status;
+        }
+        
+        public void GoToNext()
+        {
+            if (Status == Status.WhiteMove) UpdateStatus(Status.BlackMove);
+            else if (Status == Status.BlackMove) UpdateStatus(Status.WhiteMove);
         }
     }
 }

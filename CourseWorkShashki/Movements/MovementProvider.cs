@@ -2,6 +2,8 @@ namespace Movements
 {
     using System;
     using System.Collections.Generic;
+    using Checkers.GameStatus;
+    using DependencyInjection;
     using GameField;
     
     public interface IMovementProvider
@@ -11,6 +13,9 @@ namespace Movements
     
     public class MovementProvider : IMovementProvider
     {
+        [Inject]
+        public IGameStatusProvider GameStatusProvider { get; set; }
+        
         private readonly List<IMovementRule> simpleMoves = new List<IMovementRule>
         {
             new SimpleMovementRule(),
@@ -28,6 +33,11 @@ namespace Movements
             if (from.Pawn == null)
             {
                 rejections.Add("No pawn at start position");
+                return null;
+            }
+            if (!from.Pawn.CanMove(GameStatusProvider.Status))
+            {
+                rejections.Add("Wrong pawn move");
                 return null;
             }
             

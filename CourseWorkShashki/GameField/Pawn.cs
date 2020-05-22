@@ -1,5 +1,7 @@
 namespace GameField
 {
+    using Checkers.GameStatus;
+
     public class Pawn
     {
         public Color Color { get; }
@@ -18,8 +20,13 @@ namespace GameField
         White
     }
 
-    public static class ColorExtension
+    public static class PawnExtension
     {
         public static int ToDirection(this Color color) => color == Color.Black ? 1 : -1;
+        
+        public static bool CanMove(this Pawn pawn, Status status)
+        {
+            return status.ToString().Contains(pawn.Color.ToString());
+        } 
     } 
 }
