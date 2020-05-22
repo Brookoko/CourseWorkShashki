@@ -4,12 +4,12 @@ namespace ConsoleApp
     
     public class ConsoleProgram : IProgram
     {
-        protected IOptions Options;
+        protected IConsoleMenu ConsoleMenu;
         private bool shouldProcessInput;
         
         public virtual void Init()
         {
-            PrintOptions(Options);
+            ConsoleMenu.PrintPrompt();
             shouldProcessInput = true;
         }
 
@@ -17,35 +17,21 @@ namespace ConsoleApp
         {
             while (shouldProcessInput)
             {
-                var option = Console.ReadLine();
-                if (Options.ValidateInput(option))
-                {
-                    Options.RunOption(option);
-                    continue;
-                }
-                Console.WriteLine($"No option for input: {option}. Try one of these:");
-                PrintOptions(Options);
+                var input = Console.ReadLine();
+                if (ConsoleMenu.ValidateInput(input)) ConsoleMenu.RunCommand(input);
+                else Console.WriteLine($"Invalid input: {input}");
+                ConsoleMenu.PrintPrompt();
             }
         }
         
-        public void ChangeOptions(IOptions options)
+        public void ChangeOptions(IConsoleMenu consoleMenu)
         {
-            Options = options;
-            PrintOptions(Options);
+            ConsoleMenu = consoleMenu;
         }
 
         protected void StopProcessingInput()
         {
             shouldProcessInput = false;
-        }
-        
-        private void PrintOptions(IOptions options)
-        {
-            foreach (var option in options.OptionsList())
-            {
-                Console.WriteLine($"{option}");
-            }
-            Console.WriteLine();
         }
         
         public void Exit()

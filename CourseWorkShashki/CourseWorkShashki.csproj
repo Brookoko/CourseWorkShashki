@@ -40,7 +40,8 @@
     <ItemGroup>
         <Compile Include="AppSetup\App.cs" />
         <Compile Include="AppSetup\AppModule.cs" />
-        <Compile Include="AppSetup\StartOptions.cs" />
+        <Compile Include="AppSetup\GameMenu.cs" />
+        <Compile Include="AppSetup\StartMenu.cs" />
         <Compile Include="Commands\CommandQueue.cs" />
         <Compile Include="Commands\ICommand.cs" />
         <Compile Include="Commands\Types\FightCommand.cs" />
@@ -57,6 +58,8 @@
         <Compile Include="Movements\Types\SimpleMovementRule.cs" />
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
+        <Compile Include="GameStatus\GameStatusProvider.cs" />
+        <Compile Include="GameStatus\Status.cs" />
         <Compile Include="Utils.cs" />
     </ItemGroup>
     <ItemGroup>

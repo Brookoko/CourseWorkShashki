@@ -14,7 +14,7 @@ namespace ConsoleApp
         
         public List<int> Ints { get; } = new List<int>();
         
-        public void AddParameter(string pattern, string parameter)
+        public Parameters AddParameter(string pattern, string parameter)
         {
             if (pattern.StartsWith("$"))
             {
@@ -27,6 +27,7 @@ namespace ConsoleApp
                     Ints.Add(integer);
                 }
             }
+            return this;
         }
     }
 }

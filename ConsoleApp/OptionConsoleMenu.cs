@@ -4,7 +4,7 @@ namespace ConsoleApp
     using System.Collections.Generic;
     using System.Linq;
 
-    public abstract class Options : IOptions
+    public abstract class OptionConsoleMenu : IConsoleMenu
     {
         private readonly Dictionary<string, Action<Parameters>> options = new Dictionary<string, Action<Parameters>>();
         private readonly Dictionary<string, string> descriptions = new Dictionary<string, string>();
@@ -19,11 +19,11 @@ namespace ConsoleApp
             options[name] = action;
         }
 
-        public bool ValidateInput(string option)
+        public bool ValidateInput(string command)
         {
-            var name = option.Trim().Split(' ')[0];
+            var name = command.Trim().Split(' ')[0];
             return !string.IsNullOrEmpty(name) && options.ContainsKey(name) &&
-                   SameTypes(option, descriptions[name]);
+                   SameTypes(command, descriptions[name]);
         }
 
         private bool SameTypes(string option, string description)
@@ -33,9 +33,9 @@ namespace ConsoleApp
             return first.Count == second.Count;
         }
 
-        public void RunOption(string option)
+        public void RunCommand(string command)
         {
-            var (name, parameters) = ParseString(option);
+            var (name, parameters) = ParseString(command);
             if (options.TryGetValue(name, out var action))
             {
                 action?.Invoke(parameters);
@@ -67,9 +67,13 @@ namespace ConsoleApp
             return param;
         }
         
-        public IEnumerable<string> OptionsList()
+        public void PrintPrompt()
         {
-            return descriptions.Values;
+            foreach (var description in descriptions.Values)
+            {
+                Console.WriteLine(description);
+            }
+            Console.Write("Command: ");
         }
     }
 }

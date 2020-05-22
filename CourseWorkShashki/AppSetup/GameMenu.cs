@@ -2,47 +2,45 @@ namespace AppSetup
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Commands;
     using ConsoleApp;
     using DependencyInjection;
     using GameField;
     using Movements;
-    
-    public class StartOptions : Options
+
+    public class GameMenu : IConsoleMenu
     {
         [Inject]
         public IMovementProvider MovementProvider { get; set; }
-
+        
         [Inject]
         public ICommandQueue CommandQueue { get; set; }
         
-        public override string Id => "Start";
+        public string Id => "Game";
         
         private readonly Field field = new Field();
         private readonly Drawer drawer = new Drawer();
         
-        public StartOptions()
+        public bool ValidateInput(string command)
         {
-            AddOption("draw", _ => Draw());
-            AddOption("move #x1 #y1 #x2 #y2", Move);
-            AddOption("undo", _ => Undo());
-            Draw();
+            var (from, to) = ToPositions(command);
+            return ValidPositions(from, to) && TryGetMovement(from, to, out _);
         }
-        
-        private void Draw()
+
+        private (Position from, Position to) ToPositions(string command)
         {
-            drawer.Draw(field);
-        }
-        
-        private void Move(Parameters parameters)
-        {
+            var parameters = ToParameters(command);
+            if (parameters.Ints.Count != 4) return (null, null);
             var from = field.GetPosition(parameters.Ints[0], parameters.Ints[1]);
             var to = field.GetPosition(parameters.Ints[2], parameters.Ints[3]);
-            if (ValidPositions(from, to) && TryGetMovement(from, to, out var rule))
-            {
-                CommandQueue.Execute(rule.ToCommand(from, to, field));
-                Draw();
-            }
+            return (from, to);
+        }
+
+        private Parameters ToParameters(string command)
+        {
+            return command.Trim().Split(' ')
+                .Aggregate(new Parameters(), (acc, cur) => acc.AddParameter("#", cur));
         }
         
         private bool ValidPositions(Position from, Position to)
@@ -63,11 +61,18 @@ namespace AppSetup
             }
             return false;
         }
-        
-        private void Undo()
+
+        public void RunCommand(string command)
         {
-            CommandQueue.Undo();
-            Draw();
+            var (from, to) = ToPositions(command);
+            var rule = MovementProvider.RuleFor(from, to, field, new List<string>());
+            CommandQueue.Execute(rule.ToCommand(from, to, field));
+        }
+        
+        public void PrintPrompt()
+        {
+            drawer.Draw(field);
+            Console.Write("Move: ");
         }
     }
 }

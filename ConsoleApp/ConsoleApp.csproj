@@ -39,9 +39,9 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="ConsoleProgram.cs" />
-        <Compile Include="IOptions.cs" />
+        <Compile Include="IConsoleMenu.cs" />
         <Compile Include="IProgram.cs" />
-        <Compile Include="Options.cs" />
+        <Compile Include="OptionConsoleMenu.cs" />
         <Compile Include="Parameters.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>

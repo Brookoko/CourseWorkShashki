@@ -7,9 +7,11 @@ namespace AppSetup
     {
         public App(IInjectionBinder binder)
         {
-            var start = (IOptions) binder.Inject(new StartOptions());
-            start.AddOption("--exit", _ => StopProcessingInput());
-            Options = start;
+            var start = (StartMenu) binder.Inject(new StartMenu());
+            var game = (GameMenu) binder.Inject(new GameMenu());
+            start.AddOption("exit", _ => StopProcessingInput());
+            start.AddOption("game", _ => ChangeOptions(game));
+            ConsoleMenu = start;
         }
     }
 }
