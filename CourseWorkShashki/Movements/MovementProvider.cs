@@ -25,19 +25,19 @@ namespace Movements
         
         private IMovementRule GetSimpleRule(Position from, Position to, Field field)
         {
-            if (IsInAttackingState(field)) return new SimpleFightRule(from, to, field);
+            if (IsInAttackingState()) return new SimpleFightRule(from, to, field);
             return new SimpleMovementRule(from, to);
         }
         
         private IMovementRule GetDameRule(Position from, Position to, Field field)
         {
-            if (IsInAttackingState(field)) return new DameFightRule(from, to, field);
+            if (IsInAttackingState()) return new DameFightRule(from, to, field);
             return new DameMovementRule(from, to, field);
         }
         
-        private bool IsInAttackingState(Field field)
+        private bool IsInAttackingState()
         {
-            return field.IsInAttackingState(GameStatusProvider.Status.ToColor());
+            return GameStatusProvider.Status == Status.WhiteAttack || GameStatusProvider.Status == Status.BlackAttack;
         }
     }
 }

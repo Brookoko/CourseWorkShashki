@@ -47,9 +47,10 @@ namespace GameField
             return null;
         }
         
-        public Position OpponentPawnOnLine(Position from, Position to)
+        public bool IsOpponentPawnOnLine(Position from, Position to)
         {
-            return PawnsOnLine(from, to).FirstOrDefault(p => p.Pawn.Color != from.Pawn.Color);
+            var pawns = PawnsOnLine(from, to);
+            return pawns.Count == 1 && pawns[0].Pawn.Color != from.Pawn.Color;
         }
         
         public List<Position> PawnsOnLine(Position from, Position to)
@@ -90,7 +91,8 @@ namespace GameField
         {
             if (position.Pawn == null) return false;
             return PossibleAttackPositions(position, position.Pawn.IsDame)
-                .Any(pos => pos.Pawn == null && OpponentPawnOnLine(position, pos) != null);
+                .Where(pos => pos.Pawn == null)
+                .Any(pos => IsOpponentPawnOnLine(position, pos));
         }
 
         public IEnumerable<Position> PossibleAttackPositions(Position position, bool isDame)
