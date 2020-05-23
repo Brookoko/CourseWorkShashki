@@ -2,6 +2,7 @@ namespace AppSetup
 {
     using System;
     using System.Linq;
+    using Checkers;
     using Checkers.GameStatus;
     using Commands;
     using ConsoleApp;
@@ -94,7 +95,7 @@ namespace AppSetup
         public void PrintPrompt()
         {
             drawer.Draw(FieldProvider.Field);
-            Console.Write(GameStatusProvider.Status + ": ");
+            Console.Write(GameStatusProvider.Status.ToPrompt());
         }
     }
 }

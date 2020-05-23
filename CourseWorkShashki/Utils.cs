@@ -46,5 +46,18 @@ namespace Checkers
                 default: return Color.White;
             }
         }
+        
+        public static string ToPrompt(this Status status)
+        {
+            switch (status)
+            {
+                case Status.Menu: return "Menu: ";
+                case Status.WhiteMove: return "Move (white): ";
+                case Status.BlackMove: return "Move (black): ";
+                case Status.WhiteAttack: return "Attack (white): ";
+                case Status.BlackAttack: return "Attack (black): ";
+                default: return "";
+            }
+        }
     }
 }
