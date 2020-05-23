@@ -79,11 +79,16 @@ namespace GameField
         public bool IsInAttackingState(Position position)
         {
             if (position.Pawn == null) return false;
-            return PossibleAttackPositions(position)
+            return PossibleAttackPositions(position, position.Pawn.IsDame)
                 .Any(pos => pos.Pawn == null && OpponentPawnOnLine(position, pos) != null);
         }
+
+        public IEnumerable<Position> PossibleAttackPositions(Position position, bool isDame)
+        {
+            return isDame ? GetDameAttackPositions(position) : GetSimpleAttackPositions(position);
+        }
         
-        private IEnumerable<Position> PossibleAttackPositions(Position position)
+        private IEnumerable<Position> GetSimpleAttackPositions(Position position)
         {
             return new[]
                 {
@@ -93,6 +98,23 @@ namespace GameField
                     GetPosition(position.X - 2, position.Y - 2)
                 }
                 .Where(p => p != null);
+        }
+        
+        private IEnumerable<Position> GetDameAttackPositions(Position position)
+        {
+            var positions = new List<Position>();
+            for (var i = 1; i < 8; i++)
+            {
+                positions.Add(GetPosition(position.X + i, position.Y));
+                positions.Add(GetPosition(position.X - i, position.Y));
+                positions.Add(GetPosition(position.X, position.Y + i));
+                positions.Add(GetPosition(position.X, position.Y - i));
+                positions.Add(GetPosition(position.X + i, position.Y + i));
+                positions.Add(GetPosition(position.X + i, position.Y - i));
+                positions.Add(GetPosition(position.X - i, position.Y + i));
+                positions.Add(GetPosition(position.X - i, position.Y - i));
+            }
+            return positions.Where(p => p != null);
         }
     }
 }

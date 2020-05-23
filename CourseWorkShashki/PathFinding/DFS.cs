@@ -11,7 +11,7 @@ namespace Checkers.PathFinding
         private readonly Position from;
         private readonly Position to;
         
-        public DFS(Field field, Position from, Position to)
+        public DFS(Position from, Position to, Field field)
         {
             this.field = field;
             this.from = from;
@@ -23,7 +23,7 @@ namespace Checkers.PathFinding
             var paths = new List<Path> {new Path(to)};
             while (!paths.Any(p => p.Has(from)) && paths.Count != 0)
             {
-                var branches = paths.SelectMany(path => PossibleAttackPositions(path.First())
+                var branches = paths.SelectMany(path => field.PossibleAttackPositions(path.First(), from.Pawn.IsDame)
                     .Where(pos => !path.Has(pos))
                     .Where(pos => pos.Pawn == null || pos == from)
                     .Select(pos => new Branch(path, pos, PawnsOnLine(path.First(), pos))))
@@ -35,18 +35,6 @@ namespace Checkers.PathFinding
             return paths
                 .Where(path => path.Has(from))
                 .OrderBy(path => path.Length).FirstOrDefault();
-        }
-        
-        private IEnumerable<Position> PossibleAttackPositions(Position position)
-        {
-            return new[]
-                {
-                    field.GetPosition(position.X + 2, position.Y + 2),
-                    field.GetPosition(position.X + 2, position.Y - 2),
-                    field.GetPosition(position.X - 2, position.Y + 2),
-                    field.GetPosition(position.X - 2, position.Y - 2)
-                }
-                .Where(p => p != null);
         }
         
         private List<Position> PawnsOnLine(Position from, Position to)

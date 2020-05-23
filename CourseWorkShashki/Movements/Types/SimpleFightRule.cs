@@ -26,7 +26,7 @@ namespace Movements
                 Reason = "Invalid target position";
                 return false;
             }
-            if (new DFS(field, from, to).FindPath() == null)
+            if (new DFS(from, to, field).FindPath() == null)
             {
                 Reason = "No opponent pawn in the way";
                 return false;
@@ -36,7 +36,7 @@ namespace Movements
         
         public ICommand ToCommand()
         {
-            return new FightCommand(from, to, new DFS(field, from, to).FindPath());
+            return new FightCommand(from, to, new DFS(from, to, field).FindPath());
         }
     }
 }

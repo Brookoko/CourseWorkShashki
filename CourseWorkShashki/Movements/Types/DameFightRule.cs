@@ -1,6 +1,7 @@
 namespace Movements
 {
     using Checkers;
+    using Checkers.PathFinding;
     using Commands;
     using GameField;
 
@@ -26,8 +27,7 @@ namespace Movements
                 Reason = "Invalid movement direction";
                 return false;
             }
-            var pawns = field.PawnsOnLine(from, to);
-            if (pawns.Count != 1 || to.Pawn != null)
+            if (new DFS(from, to, field).FindPath() == null)
             {
                 Reason = "Invalid attack";
                 return false;
@@ -37,7 +37,7 @@ namespace Movements
         
         public ICommand ToCommand()
         {
-            return new FightCommand(from, to, null);
+            return new FightCommand(from, to, new DFS(from, to, field).FindPath());
         }
     }
 }
