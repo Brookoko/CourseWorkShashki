@@ -5,9 +5,9 @@ namespace Movements
 
     public interface IMovementRule
     {
-        string Name { get; }
+        string Reason { get; }
         
-        bool IsValid(Position from, Position to, Field field, out string reason);
+        bool IsValid(Position from, Position to, Field field);
         
         ICommand ToCommand(Position from, Position to, Field field);
     }

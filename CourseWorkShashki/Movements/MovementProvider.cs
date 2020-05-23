@@ -7,7 +7,7 @@ namespace Movements
     
     public interface IMovementProvider
     {
-        IMovementRule RuleFor(Position from, Position to, out string reason);
+        IMovementRule RuleFor(Position from, Position to, Field field);
     }
     
     public class MovementProvider : IMovementProvider
@@ -15,48 +15,24 @@ namespace Movements
         [Inject]
         public IGameStatusProvider GameStatusProvider { get; set; }
         
-        [Inject]
-        public IFieldProvider FieldProvider { get; set; }
-        
-        private IMovementRule simpleMove = new SimpleMovementRule();
-        private IMovementRule simpleFight = new SimpleFightRule();
-        private IMovementRule dameMove = new DameMovementRule();
-        private IMovementRule dameFight = new DameFightRule();
-        
-        public IMovementRule RuleFor(Position from, Position to, out string reason)
+        public IMovementRule RuleFor(Position from, Position to, Field field)
         {
-            if (from.Pawn == null)
-            {
-                reason = "No pawn at start position";
-                return null;
-            }
-            if (!from.Pawn.CanMove(GameStatusProvider.Status))
-            {
-                reason = "Wrong pawn move";
-                return null;
-            }
+            if (from.Pawn == null) return new NoPawnRule();
+            if (!from.Pawn.CanMove(GameStatusProvider.Status)) return new OpponentMoveRule();
             
-            return from.Pawn.IsDame ?
-                GetDameRule(from, to, FieldProvider.Field, out reason) :
-                GetSimpleRule(from, to, FieldProvider.Field, out reason);
+            return from.Pawn.IsDame ? GetDameRule(field) : GetSimpleRule(field);
         }
         
-        private IMovementRule GetSimpleRule(Position from, Position to, Field field, out string rejection)
+        private IMovementRule GetSimpleRule(Field field)
         {
-            if (IsInAttackingState(field))
-            {
-                return dameFight.IsValid(from, to, field, out rejection) ? dameFight : null;
-            }
-            return dameMove.IsValid(from, to, field, out rejection) ? dameMove : null;
+            if (IsInAttackingState(field)) return new SimpleFightRule();
+            return new SimpleMovementRule();
         }
         
-        private IMovementRule GetDameRule(Position from, Position to, Field field, out string rejection)
+        private IMovementRule GetDameRule(Field field)
         {
-            if (IsInAttackingState(field))
-            {
-                return simpleFight.IsValid(from, to, field, out rejection) ? simpleFight : null;
-            }
-            return simpleMove.IsValid(from, to, field, out rejection) ? simpleMove : null;
+            if (IsInAttackingState(field)) return new DameFightRule();
+            return new DameMovementRule();
         }
         
         private bool IsInAttackingState(Field field)

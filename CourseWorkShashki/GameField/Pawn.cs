@@ -1,7 +1,5 @@
 namespace GameField
 {
-    using Checkers.GameStatus;
-
     public class Pawn
     {
         public Color Color { get; }

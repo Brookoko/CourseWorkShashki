@@ -1,27 +1,25 @@
 namespace Movements
 {
-    using System;
     using Checkers;
     using Commands;
     using GameField;
 
     public class SimpleMovementRule : IMovementRule
     {
-        public string Name => "SimpleMove";
+        public string Reason { get; private set; }
         
-        public bool IsValid(Position from, Position to, Field field, out string reason)
+        public bool IsValid(Position from, Position to, Field field)
         {
             if (!Utils.IsDiagonalInDirection(from, to, from.Pawn.Color.ToDirection()))
             {
-                reason = "Invalid target position";;
+                Reason = "Invalid target position";;
                 return false;
             }
             if (to.Pawn != null)
             {
-                reason = "Target position is occupied";
+                Reason = "Target position is occupied";
                 return false;
             }
-            reason = "Valid move";
             return true;
         }
         

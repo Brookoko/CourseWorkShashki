@@ -6,28 +6,27 @@ namespace Movements
 
     public class DameFightRule : IMovementRule
     {
-        public string Name => "DameFight";
+        public string Reason { get; private set; }
         
-        public bool IsValid(Position from, Position to, Field field, out string reason)
+        public bool IsValid(Position from, Position to, Field field)
         {
             if (!Utils.IsStraightLine(from, to) && !Utils.IsDiagonal(from, to))
             {
-                reason = "Invalid movement direction";
+                Reason = "Invalid movement direction";
                 return false;
             }
             var pawns = field.PawnsOnLine(from, to);
             if (pawns.Count != 1 || to.Pawn != null)
             {
-                reason = "Invalid attack";
+                Reason = "Invalid attack";
                 return false;
             }
-            reason = "Valid move";
             return true;
         }
         
         public ICommand ToCommand(Position from, Position to, Field field)
         {
-            return new FightCommand(from, to, field.OpponentPawnOnLine(from, to));
+            return new FightCommand(from, to, null);
         }
     }
 }

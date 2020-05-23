@@ -48,5 +48,7 @@ namespace GameField
         public static bool operator ==(Position left, Position right) => Equals(left, right);
         
         public static bool operator !=(Position left, Position right) => !Equals(left, right);
+        
+        public override string ToString() => $"{X} {Y}";
     }
 }

@@ -1,6 +1,9 @@
 namespace Commands
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using Checkers.GameStatus;
+    using Checkers.PathFinding;
     using DependencyInjection;
     using GameField;
 
@@ -14,24 +17,27 @@ namespace Commands
         
         private readonly Position from;
         private readonly Position to;
-        private readonly Position kill;
-        private readonly Pawn pawn;
+        private readonly Path path;
+        private readonly List<Pawn> pawns;
         
         private bool turnedToDame;
         
-        public FightCommand(Position from, Position to, Position kill)
+        public FightCommand(Position from, Position to, Path path)
         {
             this.from = from;
             this.to = to;
-            this.kill = kill;
-            pawn = kill.Pawn;
+            this.path = path;
+            pawns = path.Opponents.Select(p => p.Pawn).ToList();
         }
         
         public void Execute()
         {
             to.Pawn = from.RemovePawn();
             turnedToDame = to.TryTurnToDame();
-            kill.Pawn = null;
+            foreach (var opponent in path.Opponents)
+            {
+                opponent.Pawn = null;
+            }
             GoToNext();
         }
         
@@ -46,7 +52,10 @@ namespace Commands
             GoToNext();
             from.Pawn = to.RemovePawn();
             if (turnedToDame) from.Pawn.IsDame = false;
-            kill.Pawn = pawn;
+            for (var i = 0; i < path.Opponents.Count; i++)
+            {
+                path.Opponents[i].Pawn = pawns[i];
+            }
         }
     }
 }
