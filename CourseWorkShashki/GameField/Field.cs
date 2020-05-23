@@ -76,11 +76,11 @@ namespace GameField
                                  IsInAttackingState(position));
         }
         
-        private bool IsInAttackingState(Position position)
+        public bool IsInAttackingState(Position position)
         {
             if (position.Pawn == null) return false;
             return PossibleAttackPositions(position)
-                .Any(attackPosition => OpponentPawnOnLine(position, attackPosition) != null);
+                .Any(pos => pos.Pawn == null && OpponentPawnOnLine(position, pos) != null);
         }
         
         private IEnumerable<Position> PossibleAttackPositions(Position position)

@@ -29,6 +29,7 @@ namespace AppSetup
         
         public bool ValidateInput(string command)
         {
+            if (command.Trim().ToLowerInvariant() == "undo") return true;
             var (from, to) = ToPositions(command);
             return ValidPositions(from, to) && TryGetMovement(from, to, out _);
         }
@@ -80,6 +81,11 @@ namespace AppSetup
 
         public void RunCommand(string command)
         {
+            if (command.Trim().ToLowerInvariant() == "undo")
+            {
+                CommandQueue.Undo();
+                return;
+            }
             var (from, to) = ToPositions(command);
             var rule = MovementProvider.RuleFor(from, to, out _);
             CommandQueue.Execute(rule.ToCommand(from, to, FieldProvider.Field));

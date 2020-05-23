@@ -1,5 +1,6 @@
 namespace Movements
 {
+    using Checkers;
     using Checkers.GameStatus;
     using DependencyInjection;
     using GameField;

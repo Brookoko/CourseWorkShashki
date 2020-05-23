@@ -16,14 +16,17 @@ namespace Commands
     {
         [Inject]
         public IGameStatusProvider GameStatusProvider { get; set; }
+
+        [Inject]
+        public IInjectionBinder InjectionBinder { get; set; }
         
         private readonly Stack<ICommand> stacks = new Stack<ICommand>();
         
         public void Execute(ICommand command)
         {
+            InjectionBinder.Inject(command);
             command.Execute();
             stacks.Push(command);
-            GameStatusProvider.GoToNext();
         }
         
         public void Undo()

@@ -2,6 +2,7 @@ namespace Checkers
 {
     using System;
     using GameField;
+    using GameStatus;
 
     public static class Utils
     {
@@ -23,6 +24,27 @@ namespace Checkers
         public static bool IsStraightLine(Position from, Position to)
         {
             return from.X == to.X && from.Y != to.Y || from.Y == to.Y && from.X != to.X;
+        }
+        
+        public static int ToDirection(this Color color) => color == Color.Black ? 1 : -1;
+        
+        public static Color Oppose(this Color color) => color == Color.Black ? Color.White : Color.Black;
+        
+        public static bool CanMove(this Pawn pawn, Status status)
+        {
+            return pawn.Color == status.ToColor();
+        }
+        
+        public static Color ToColor(this Status status)
+        {
+            switch (status)
+            {
+                case Status.WhiteAttack:
+                case Status.WhiteMove: return Color.White;
+                case Status.BlackAttack:
+                case Status.BlackMove: return Color.Black;
+                default: return Color.White;
+            }
         }
     }
 }

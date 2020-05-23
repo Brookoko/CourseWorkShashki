@@ -1,9 +1,14 @@
 namespace Commands
 {
+    using Checkers.GameStatus;
+    using DependencyInjection;
     using GameField;
 
     public class MoveCommand : ICommand
     {
+        [Inject]
+        public IGameStatusProvider GameStatusProvider { get; set; }
+        
         private readonly Position from;
         private readonly Position to;
         
@@ -19,12 +24,14 @@ namespace Commands
         {
             to.Pawn = from.RemovePawn();
             turnedToDame = to.TryTurnToDame();
+            GameStatusProvider.GoToNext();
         }
 
         public void Undo()
         {
             from.Pawn = to.RemovePawn();
             if (turnedToDame) from.Pawn.IsDame = false;
+            GameStatusProvider.GoToNext();
         }
     }
 }
