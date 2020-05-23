@@ -8,7 +8,16 @@ namespace Movements
     {
         public string Reason { get; private set; }
         
-        public bool IsValid(Position from, Position to, Field field)
+        private readonly Position from;
+        private readonly Position to;
+        
+        public SimpleMovementRule(Position from, Position to)
+        {
+            this.from = from;
+            this.to = to;
+        }
+        
+        public bool IsValid()
         {
             if (!Utils.IsDiagonalInDirection(from, to, from.Pawn.Color.ToDirection()))
             {
@@ -23,7 +32,7 @@ namespace Movements
             return true;
         }
         
-        public ICommand ToCommand(Position from, Position to, Field field)
+        public ICommand ToCommand()
         {
             return new MoveCommand(from, to);
         }

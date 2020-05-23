@@ -74,7 +74,7 @@ namespace AppSetup
         private bool TryGetMovement(Position from, Position to, out IMovementRule rule)
         {
             rule = MovementProvider.RuleFor(from, to, FieldProvider.Field);
-            if (rule.IsValid(from, to, FieldProvider.Field)) return true;
+            if (rule.IsValid()) return true;
             Console.WriteLine(rule.Reason);
             return false;
         }
@@ -88,7 +88,7 @@ namespace AppSetup
             }
             var (from, to) = ToPositions(command);
             var rule = MovementProvider.RuleFor(from, to, FieldProvider.Field);
-            CommandQueue.Execute(rule.ToCommand(from, to, FieldProvider.Field));
+            CommandQueue.Execute(rule.ToCommand());
         }
         
         public void PrintPrompt()

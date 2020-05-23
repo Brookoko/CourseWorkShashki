@@ -8,7 +8,18 @@ namespace Movements
     {
         public string Reason { get; private set; }
         
-        public bool IsValid(Position from, Position to, Field field)
+        private readonly Position from;
+        private readonly Position to;
+        private readonly Field field;
+        
+        public SimpleFightRule(Position from, Position to, Field field)
+        {
+            this.from = from;
+            this.to = to;
+            this.field = field;
+        }
+        
+        public bool IsValid()
         {
             if (to.Pawn != null || from == to)
             {
@@ -23,7 +34,7 @@ namespace Movements
             return true;
         }
         
-        public ICommand ToCommand(Position from, Position to, Field field)
+        public ICommand ToCommand()
         {
             return new FightCommand(from, to, new DFS(field, from, to).FindPath());
         }

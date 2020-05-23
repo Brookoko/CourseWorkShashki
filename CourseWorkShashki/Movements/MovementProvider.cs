@@ -20,19 +20,19 @@ namespace Movements
             if (from.Pawn == null) return new NoPawnRule();
             if (!from.Pawn.CanMove(GameStatusProvider.Status)) return new OpponentMoveRule();
             
-            return from.Pawn.IsDame ? GetDameRule(field) : GetSimpleRule(field);
+            return from.Pawn.IsDame ? GetDameRule(from, to, field) : GetSimpleRule(from, to, field);
         }
         
-        private IMovementRule GetSimpleRule(Field field)
+        private IMovementRule GetSimpleRule(Position from, Position to, Field field)
         {
-            if (IsInAttackingState(field)) return new SimpleFightRule();
-            return new SimpleMovementRule();
+            if (IsInAttackingState(field)) return new SimpleFightRule(from, to, field);
+            return new SimpleMovementRule(from, to);
         }
         
-        private IMovementRule GetDameRule(Field field)
+        private IMovementRule GetDameRule(Position from, Position to, Field field)
         {
-            if (IsInAttackingState(field)) return new DameFightRule();
-            return new DameMovementRule();
+            if (IsInAttackingState(field)) return new DameFightRule(from, to, field);
+            return new DameMovementRule(from, to, field);
         }
         
         private bool IsInAttackingState(Field field)

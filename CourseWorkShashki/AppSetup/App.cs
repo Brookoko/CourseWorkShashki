@@ -18,13 +18,15 @@ namespace AppSetup
             var start = (StartMenu) binder.Inject(new StartMenu());
             var game = (GameMenu) binder.Inject(new GameMenu());
             start.AddOption("exit", _ => StopProcessingInput());
-            start.AddOption("game", _ =>
-            {
-                FieldProvider.CreateNew();
-                GameStatusProvider.UpdateStatus(Status.WhiteMove);
-                ChangeOptions(game);
-            });
+            start.AddOption("game", _ => CreateNewGame(game));
             ConsoleMenu = start;
+        }
+        
+        private void CreateNewGame(GameMenu game)
+        {
+            FieldProvider.CreateNew();
+            GameStatusProvider.UpdateStatus(Status.WhiteMove);
+            ChangeOptions(game);
         }
     }
 }
