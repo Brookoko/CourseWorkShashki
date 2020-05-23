@@ -31,6 +31,8 @@ namespace Checkers.GameStatus
         
         private Status StatusFor(Color color)
         {
+            if (FieldProvider.Field.IsInWinState(color))
+                return color == Color.White ? Status.WhiteWin : Status.BlackWin;
             color = color.Oppose();
             if (FieldProvider.Field.IsInAttackingState(color))
                 return color == Color.White ? Status.WhiteAttack : Status.BlackAttack;

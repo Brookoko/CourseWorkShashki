@@ -56,6 +56,8 @@ namespace Checkers
                 case Status.BlackMove: return "Move (black): ";
                 case Status.WhiteAttack: return "Attack (white): ";
                 case Status.BlackAttack: return "Attack (black): ";
+                case Status.WhiteWin: return "White win\n";
+                case Status.BlackWin: return "Black win\n";
                 default: return "";
             }
         }

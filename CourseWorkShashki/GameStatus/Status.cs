@@ -7,5 +7,7 @@ namespace Checkers.GameStatus
         BlackMove,
         WhiteAttack,
         BlackAttack,
+        WhiteWin,
+        BlackWin
     }
 }

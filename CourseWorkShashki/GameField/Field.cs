@@ -3,6 +3,7 @@ namespace GameField
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Checkers;
 
     public class Field
     {
@@ -66,6 +67,15 @@ namespace GameField
                 if (pos.Pawn != null && pos != to) pawns.Add(pos);
             }
             return pawns;
+        }
+        
+        public bool IsInWinState(Color color)
+        {
+            var oppose = color.Oppose();
+            return Positions.Cast<Position>()
+                .Select(p => p.Pawn)
+                .Where(p => p != null)
+                .All(p => p.Color != oppose);
         }
         
         public bool IsInAttackingState(Color color)
