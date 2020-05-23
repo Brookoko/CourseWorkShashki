@@ -11,11 +11,6 @@ namespace Checkers
             return Math.Abs(to.X - from.X) == Math.Abs(to.Y - from.Y) && to.X - from.X == direction;
         }
      
-        public static bool IsDiagonal(Position from, Position to, int distance)
-        {
-            return Math.Abs(to.X - from.X) == Math.Abs(to.Y - from.Y) && Math.Abs(to.X - from.X) == distance;
-        }
-        
         public static bool IsDiagonal(Position from, Position to)
         {
             return Math.Abs(to.X - from.X) == Math.Abs(to.Y - from.Y);

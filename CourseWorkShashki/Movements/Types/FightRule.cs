@@ -1,11 +1,10 @@
 namespace Movements
 {
-    using Checkers;
     using Checkers.PathFinding;
     using Commands;
     using GameField;
-
-    public class DameFightRule : IMovementRule
+    
+    public class FightRule : IMovementRule
     {
         public string Reason { get; private set; }
         
@@ -13,7 +12,7 @@ namespace Movements
         private readonly Position to;
         private readonly Field field;
         
-        public DameFightRule(Position from, Position to, Field field)
+        public FightRule(Position from, Position to, Field field)
         {
             this.from = from;
             this.to = to;
@@ -22,14 +21,9 @@ namespace Movements
         
         public bool IsValid()
         {
-            if (!Utils.IsStraightLine(from, to) && !Utils.IsDiagonal(from, to))
-            {
-                Reason = "Invalid movement direction";
-                return false;
-            }
             if (new DFS(from, to, field).FindPath() == null)
             {
-                Reason = "Invalid attack";
+                Reason = "No opponent pawn in the way";
                 return false;
             }
             return true;

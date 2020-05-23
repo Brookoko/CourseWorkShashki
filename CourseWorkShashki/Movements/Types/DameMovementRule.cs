@@ -27,7 +27,7 @@ namespace Movements
                 return false;
             }
             var pawns = field.PawnsOnLine(from, to);
-            if (pawns.Count > 0 || to.Pawn != null)
+            if (pawns.Count != 0)
             {
                 Reason = "Pawns are in the way";
                 return false;

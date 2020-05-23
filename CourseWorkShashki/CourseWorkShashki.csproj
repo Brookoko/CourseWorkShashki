@@ -54,10 +54,10 @@
         <Compile Include="Movements\MovementProvider.cs" />
         <Compile Include="Movements\IMovementRule.cs" />
         <Compile Include="Movements\Types\DameMovementRule.cs" />
-        <Compile Include="Movements\Types\DameFightRule.cs" />
         <Compile Include="Movements\Types\NoPawnRule.cs" />
+        <Compile Include="Movements\Types\OccupiedRule.cs" />
         <Compile Include="Movements\Types\OpponentMoveRule.cs" />
-        <Compile Include="Movements\Types\SimpleFightRule.cs" />
+        <Compile Include="Movements\Types\FightRule.cs" />
         <Compile Include="Movements\Types\SimpleMovementRule.cs" />
         <Compile Include="PathFinding\Branch.cs" />
         <Compile Include="PathFinding\DFS.cs" />

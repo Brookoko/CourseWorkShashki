@@ -24,11 +24,6 @@ namespace Movements
                 Reason = "Invalid target position";;
                 return false;
             }
-            if (to.Pawn != null)
-            {
-                Reason = "Target position is occupied";
-                return false;
-            }
             return true;
         }
         
