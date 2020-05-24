@@ -5,13 +5,13 @@ namespace Checkers.PathFinding
     using System.Linq;
     using GameField;
 
-    public class DFS
+    public class BFS
     {
         private readonly Field field;
         private readonly Position from;
         private readonly Position to;
         
-        public DFS(Position from, Position to, Field field)
+        public BFS(Position from, Position to, Field field)
         {
             this.field = field;
             this.from = from;

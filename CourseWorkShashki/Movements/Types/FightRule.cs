@@ -21,7 +21,7 @@ namespace Movements
         
         public bool IsValid()
         {
-            if (new DFS(from, to, field).FindPath() == null)
+            if (new BFS(from, to, field).FindPath() == null)
             {
                 Reason = "No opponent pawn in the way";
                 return false;
@@ -31,7 +31,7 @@ namespace Movements
         
         public ICommand ToCommand()
         {
-            return new FightCommand(from, to, new DFS(from, to, field).FindPath());
+            return new FightCommand(from, to, new BFS(from, to, field).FindPath());
         }
     }
 }

@@ -60,7 +60,7 @@
         <Compile Include="Movements\Types\FightRule.cs" />
         <Compile Include="Movements\Types\SimpleMovementRule.cs" />
         <Compile Include="PathFinding\Branch.cs" />
-        <Compile Include="PathFinding\DFS.cs" />
+        <Compile Include="PathFinding\BFS.cs" />
         <Compile Include="PathFinding\Path.cs" />
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
