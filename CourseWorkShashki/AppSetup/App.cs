@@ -1,6 +1,7 @@
 namespace AppSetup
 {
     using Checkers.GameStatus;
+    using Commands;
     using ConsoleApp;
     using DependencyInjection;
     using GameField;
@@ -12,6 +13,9 @@ namespace AppSetup
         
         [Inject]
         public IFieldProvider FieldProvider { get; set; }
+
+        [Inject]
+        public ICommandQueue CommandQueue { get; set; }
         
         public App(IInjectionBinder binder)
         {
@@ -26,6 +30,7 @@ namespace AppSetup
         
         private void CreateNewGame(GameMenu game)
         {
+            CommandQueue.Reset();
             FieldProvider.CreateNew();
             GameStatusProvider.UpdateStatus(Status.WhiteMove);
             ChangeOptions(game);

@@ -3,13 +3,14 @@ namespace Commands
     using System.Collections.Generic;
     using Checkers.GameStatus;
     using DependencyInjection;
-    using GameField;
 
     public interface ICommandQueue
     {
         void Execute(ICommand command);
         
         void Undo();
+        
+        void Reset();
     }
     
     public class CommandQueue : ICommandQueue
@@ -34,6 +35,11 @@ namespace Commands
             if (stacks.Count == 0) return;
             var last = stacks.Pop();
             last.Undo();
+        }
+        
+        public void Reset()
+        {
+            stacks.Clear();
         }
     }
 }

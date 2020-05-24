@@ -27,7 +27,7 @@ namespace GameField
         private void DrawLetters()
         {
             var letterLine = new StringBuilder()
-                .Append(' ', 6)
+                .Append(' ', 3 + (Width + 1) / 2)
                 .Append(letters[0]);
             for (var i = 1; i < 8; i++)
             {
