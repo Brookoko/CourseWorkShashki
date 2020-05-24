@@ -15,10 +15,12 @@ namespace AppSetup
         
         public App(IInjectionBinder binder)
         {
-            var start = (StartMenu) binder.Inject(new StartMenu());
+            var start = (OptionConsoleMenu) binder.Inject(new OptionConsoleMenu());
             var game = (GameMenu) binder.Inject(new GameMenu());
-            start.AddOption("exit", _ => StopProcessingInput());
-            start.AddOption("game", _ => CreateNewGame(game));
+            start.Options.AddOption("exit", null, _ => StopProcessingInput());
+            start.Options.AddOption("game", null, _ => CreateNewGame(game));
+            game.Options.AddOption("back", null, _ => ChangeOptions(start));
+            game.Options.AddOption("restart", null, _ => CreateNewGame(game));
             ConsoleMenu = start;
         }
         

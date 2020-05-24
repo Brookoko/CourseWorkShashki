@@ -1,7 +1,6 @@
 namespace AppSetup
 {
     using System;
-    using System.Linq;
     using Checkers;
     using Checkers.GameStatus;
     using Commands;
@@ -24,45 +23,20 @@ namespace AppSetup
         [Inject]
         public IFieldProvider FieldProvider { get; set; }
         
-        public string Id => "Game";
-        
+        public readonly Options Options = new Options();
         private readonly Drawer drawer = new Drawer();
+        private readonly StringPositionConverter converter = new StringPositionConverter();
         
-        public bool ValidateInput(string command)
+        public GameMenu()
         {
-            if (command.Trim().ToLowerInvariant() == "undo") return true;
-            var (from, to) = ToPositions(command);
+            Options.AddOption("undo", null, _ => CommandQueue.Undo());
+        }
+        
+        public bool ValidateInput(string input)
+        {
+            if (Options.ValidateCommand(input)) return true;
+            var (from, to) = converter.ToPositions(input, FieldProvider.Field);
             return ValidPositions(from, to) && TryGetMovement(from, to, out _);
-        }
-
-        private (Position from, Position to) ToPositions(string command)
-        {
-            var parameters = ToParameters(command);
-            if (parameters.Strings.Count != 2) return (null, null);
-            var from = ToPosition(parameters.Strings[0]);
-            var to = ToPosition(parameters.Strings[1]);
-            return (from, to);
-        }
-
-        private Parameters ToParameters(string command)
-        {
-            return command.Trim().Split(' ')
-                .Aggregate(new Parameters(), (acc, cur) => acc.AddParameter("$", cur));
-        }
-        
-        private Position ToPosition(string input)
-        {
-            if (input.Length != 2) return null;
-            input = input.ToUpperInvariant();
-            var letter = input[0];
-            var number = input[1];
-            if (int.TryParse(number.ToString(), out var num))
-            {
-                var y = letter - 65;
-                var x = 8 - num;
-                return FieldProvider.Field.GetPosition(x, y);
-            }
-            return null;
         }
         
         private bool ValidPositions(Position from, Position to)
@@ -80,14 +54,14 @@ namespace AppSetup
             return false;
         }
 
-        public void RunCommand(string command)
+        public void RunCommand(string input)
         {
-            if (command.Trim().ToLowerInvariant() == "undo")
+            if (Options.ValidateCommand(input))
             {
-                CommandQueue.Undo();
+                Options.Execute(input);
                 return;
             }
-            var (from, to) = ToPositions(command);
+            var (from, to) = converter.ToPositions(input, FieldProvider.Field);
             var rule = MovementProvider.RuleFor(from, to, FieldProvider.Field);
             CommandQueue.Execute(rule.ToCommand());
         }
@@ -95,6 +69,10 @@ namespace AppSetup
         public void PrintPrompt()
         {
             drawer.Draw(FieldProvider.Field);
+            foreach (var option in Options.GetOptions())
+            {
+                Console.WriteLine(option);
+            }
             Console.Write(GameStatusProvider.Status.ToPrompt());
         }
     }

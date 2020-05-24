@@ -41,7 +41,7 @@
         <Compile Include="AppSetup\App.cs" />
         <Compile Include="AppSetup\AppModule.cs" />
         <Compile Include="AppSetup\GameMenu.cs" />
-        <Compile Include="AppSetup\StartMenu.cs" />
+        <Compile Include="AppSetup\StringPositionConverter.cs" />
         <Compile Include="Commands\CommandQueue.cs" />
         <Compile Include="Commands\ICommand.cs" />
         <Compile Include="Commands\Types\FightCommand.cs" />

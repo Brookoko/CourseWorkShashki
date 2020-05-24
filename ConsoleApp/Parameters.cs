@@ -1,6 +1,5 @@
 namespace ConsoleApp
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -29,5 +28,7 @@ namespace ConsoleApp
             }
             return this;
         }
+        
+        public int Count => Ints.Count + Strings.Count;
     }
 }

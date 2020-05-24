@@ -2,11 +2,9 @@ namespace ConsoleApp
 {
     public interface IConsoleMenu
     {
-        string Id { get; }
+        bool ValidateInput(string input);
         
-        bool ValidateInput(string command);
-        
-        void RunCommand(string command);
+        void RunCommand(string input);
         
         void PrintPrompt();
     }
