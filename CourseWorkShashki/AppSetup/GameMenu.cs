@@ -35,6 +35,7 @@ namespace AppSetup
         public bool ValidateInput(string input)
         {
             if (Options.ValidateCommand(input)) return true;
+            if (GameStatusProvider.Status.IsWinStatus()) return false;
             var (from, to) = converter.ToPositions(input, FieldProvider.Field);
             return ValidPositions(from, to) && TryGetMovement(from, to, out _);
         }
@@ -73,7 +74,22 @@ namespace AppSetup
             {
                 Console.WriteLine(option);
             }
-            Console.Write(GameStatusProvider.Status.ToPrompt());
+            Console.Write(ToPrompt(GameStatusProvider.Status));
+        }
+        
+        private string ToPrompt(Status status)
+        {
+            switch (status)
+            {
+                case Status.Menu: return "Menu: ";
+                case Status.WhiteMove: return "Move (white): ";
+                case Status.BlackMove: return "Move (black): ";
+                case Status.WhiteAttack: return "Attack (white): ";
+                case Status.BlackAttack: return "Attack (black): ";
+                case Status.WhiteWin: return "Congratulation White win\nType restart to try one more time or back to return to start menu\n";
+                case Status.BlackWin: return "Congratulation Black win\nType restart to try one more time or back to return to start menu\n";
+                default: return "";
+            }
         }
     }
 }

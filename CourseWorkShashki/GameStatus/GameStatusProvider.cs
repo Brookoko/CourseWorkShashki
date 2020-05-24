@@ -31,12 +31,15 @@ namespace Checkers.GameStatus
         
         private Status StatusFor(Color color)
         {
-            if (FieldProvider.Field.IsInWinState(color))
-                return color == Color.White ? Status.WhiteWin : Status.BlackWin;
+            if (FieldProvider.Field.IsInWinState(color)) return ToWin(color);
             color = color.Oppose();
-            if (FieldProvider.Field.IsInAttackingState(color))
-                return color == Color.White ? Status.WhiteAttack : Status.BlackAttack;
-            return color == Color.White ? Status.WhiteMove : Status.BlackMove;
+            return FieldProvider.Field.IsInAttackingState(color) ? ToAttack(color) : ToMove(color);
         }
+        
+        private Status ToWin(Color color) => color == Color.White ? Status.WhiteWin : Status.BlackWin;
+        
+        private Status ToAttack(Color color) => color == Color.White ? Status.WhiteAttack : Status.BlackAttack;
+        
+        private Status ToMove(Color color) => color == Color.White ? Status.WhiteMove : Status.BlackMove;
     }
 }

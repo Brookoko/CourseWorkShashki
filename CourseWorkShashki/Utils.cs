@@ -35,26 +35,23 @@ namespace Checkers
             switch (status)
             {
                 case Status.WhiteAttack:
+                case Status.WhiteWin:
                 case Status.WhiteMove: return Color.White;
                 case Status.BlackAttack:
+                case Status.BlackWin:
                 case Status.BlackMove: return Color.Black;
                 default: return Color.White;
             }
         }
         
-        public static string ToPrompt(this Status status)
+        public static bool IsAttacking(this Status status)
         {
-            switch (status)
-            {
-                case Status.Menu: return "Menu: ";
-                case Status.WhiteMove: return "Move (white): ";
-                case Status.BlackMove: return "Move (black): ";
-                case Status.WhiteAttack: return "Attack (white): ";
-                case Status.BlackAttack: return "Attack (black): ";
-                case Status.WhiteWin: return "White win\n";
-                case Status.BlackWin: return "Black win\n";
-                default: return "";
-            }
+            return status == Status.WhiteAttack || status == Status.BlackAttack;
+        }
+        
+        public static bool IsWinStatus(this Status status)
+        {
+            return status == Status.WhiteWin || status == Status.BlackWin;
         }
     }
 }
