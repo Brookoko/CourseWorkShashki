@@ -9,7 +9,7 @@ namespace Checkers.GameField
     
     public class FieldProvider : IFieldProvider
     {
-        public Field Field { get; private set; }
+        public Field Field { get; set; }
         
         public void CreateNew()
         {

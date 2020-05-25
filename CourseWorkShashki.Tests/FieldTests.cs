@@ -19,12 +19,6 @@
                 for (var j = 0; j < 8; j++)
                 {
                     positions[i,j] = new Position(i, j);
-                }
-            }
-            for (var i = 0; i < 8; i++)
-            {
-                for (var j = 0; j < 8; j++)
-                {
                     field.Positions[i, j] = positions[i, j];
                 }
             }
