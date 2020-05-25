@@ -1,0 +1,218 @@
+﻿namespace Checkers.Tests
+{
+    using System.Collections.Generic;
+    using System.Linq;
+    using GameField;
+    using NUnit.Framework;
+    using NUnit.Framework.Constraints;
+
+    [TestFixture]
+    public class FieldTests
+    {
+        private readonly Position[,] positions = new Position[8, 8];
+        private Field field;
+        
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
+        {
+            field = new Field();
+            for (var i = 0; i < 8; i++)
+            {
+                for (var j = 0; j < 8; j++)
+                {
+                    positions[i,j] = new Position(i, j);
+                }
+            }
+            for (var i = 0; i < 8; i++)
+            {
+                for (var j = 0; j < 8; j++)
+                {
+                    field.Positions[i, j] = positions[i, j];
+                }
+            }
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            foreach (var position in positions)
+            {
+                position.Pawn = null;
+            }
+        }
+        
+        [Test]
+        public void PositionInFieldTest()
+        {
+            Assert.NotNull(field.GetPosition(0, 0));
+            Assert.NotNull(field.GetPosition(7, 7));
+        }
+        
+        [Test]
+        public void PositionOutOfFieldTest()
+        {
+            Assert.Null(field.GetPosition(0, -1));
+            Assert.Null(field.GetPosition(8, 8));
+        }
+        
+        [Test]
+        public void PawnsOnStraightLineHorizontalTest()
+        {
+            field.Positions[0, 0].Pawn = new Pawn(Color.White);
+            field.Positions[0, 3].Pawn = new Pawn(Color.White);
+            var pawnsOnLine = field.PawnsOnLine(positions[0, 0], positions[0, 7]);
+            Assert.That(1, Is.EqualTo(pawnsOnLine.Count));
+        }
+        
+        [Test]
+        public void PawnsOnStraightLineVerticalTest()
+        {
+            field.Positions[0, 0].Pawn = new Pawn(Color.White);
+            field.Positions[3, 0].Pawn = new Pawn(Color.White);
+            var pawnsOnLine = field.PawnsOnLine(positions[0, 0], positions[7, 0]);
+            Assert.That(pawnsOnLine, Has.Count.EqualTo(1));
+        }
+        
+        [Test]
+        public void PawnsOnDiagonalTest()
+        {
+            field.Positions[0, 0].Pawn = new Pawn(Color.White);
+            field.Positions[3, 3].Pawn = new Pawn(Color.White);
+            var pawnsOnLine = field.PawnsOnLine(positions[0, 0], positions[7, 7]);
+            Assert.That(pawnsOnLine, Has.Count.EqualTo(1));
+        }
+        
+        [Test]
+        public void MultiplePawnsOnDiagonalTest()
+        {
+            field.Positions[0, 0].Pawn = new Pawn(Color.White);
+            field.Positions[1, 1].Pawn = new Pawn(Color.White);
+            field.Positions[2, 2].Pawn = new Pawn(Color.White);
+            field.Positions[3, 3].Pawn = new Pawn(Color.White);
+            field.Positions[4, 4].Pawn = new Pawn(Color.White);
+            field.Positions[5, 5].Pawn = new Pawn(Color.White);
+            field.Positions[6, 6].Pawn = new Pawn(Color.White);
+            field.Positions[7, 7].Pawn = new Pawn(Color.White);
+            var pawnsOnLine = field.PawnsOnLine(positions[0, 0], positions[7, 7]);
+            Assert.That(pawnsOnLine, Has.Count.EqualTo(6));
+        }
+
+        [Test]
+        public void WhiteWinTest()
+        {
+            field.Positions[0, 0].Pawn = new Pawn(Color.White);
+            Assert.IsTrue(field.IsInWinState(Color.White));
+        }
+        
+        [Test]
+        public void WhiteNotWinTest()
+        {
+            field.Positions[0, 0].Pawn = new Pawn(Color.White);
+            field.Positions[1, 1].Pawn = new Pawn(Color.Black);
+            Assert.IsFalse(field.IsInWinState(Color.White));
+        }
+        
+        [Test]
+        public void WinEmptyTest()
+        {
+            Assert.IsTrue(field.IsInWinState(Color.White));
+        }
+        
+        [Test]
+        public void PossiblePositionsPawnTest()
+        {
+            var attacks = field.PossibleAttackPositions(positions[2, 2], false).ToList();
+            Assert.That(attacks, Has.Count.EqualTo(4));
+            Assert.That(attacks, Has.Member(positions[0, 0]));
+            Assert.That(attacks, Has.Member(positions[0, 4]));
+            Assert.That(attacks, Has.Member(positions[4, 0]));
+            Assert.That(attacks, Has.Member(positions[4, 4]));
+        }
+        
+        [Test]
+        public void PossiblePositionsNotAllPawnTest()
+        {
+            var attacks = field.PossibleAttackPositions(positions[0, 0], false).ToList();
+            Assert.That(attacks, Has.Count.EqualTo(1));
+            Assert.That(attacks, Has.Member(positions[2, 2]));
+        }
+        
+        [Test]
+        public void PossiblePositionsDameTest()
+        {
+            var attacks = field.PossibleAttackPositions(positions[0, 0], true).ToList();
+            Assert.That(attacks, Has.Count.EqualTo(21));
+            for (var i = 1; i < 8; i++)
+            {
+                Assert.That(attacks, Has.Member(positions[0, i]));
+                Assert.That(attacks, Has.Member(positions[i, 0]));
+                Assert.That(attacks, Has.Member(positions[i, i]));
+            }
+        }
+
+        [Test]
+        public void AttackStateNoPawnTest()
+        {
+            Assert.False(field.IsInAttackingState(positions[0, 0]));
+        }
+        
+        [Test]
+        public void AttackStateTest()
+        {
+            positions[0, 0].Pawn = new Pawn(Color.White);
+            positions[1, 1].Pawn = new Pawn(Color.Black);
+            Assert.True(field.IsInAttackingState(positions[0, 0]));
+        }
+
+        
+        [Test]
+        public void AttackStateTargetOccupiedTest()
+        {
+            positions[0, 0].Pawn = new Pawn(Color.White);
+            positions[1, 1].Pawn = new Pawn(Color.Black);
+            positions[2, 2].Pawn = new Pawn(Color.Black);
+            Assert.False(field.IsInAttackingState(positions[0, 0]));
+        }
+        
+        [Test]
+        public void AttackStateAllyTest()
+        {
+            positions[0, 0].Pawn = new Pawn(Color.White);
+            positions[1, 1].Pawn = new Pawn(Color.White);
+            Assert.False(field.IsInAttackingState(positions[0, 0]));
+        }
+        
+        [Test]
+        public void AttackStateMultipleEnemiesTest()
+        {
+            positions[0, 0].Pawn = new Pawn(Color.White) {IsDame = true};
+            positions[0, 1].Pawn = new Pawn(Color.Black);
+            positions[0, 2].Pawn = new Pawn(Color.Black);
+            Assert.False(field.IsInAttackingState(positions[0, 0]));
+        }
+
+        [Test]
+        public void AttackStateNoPawnsTest()
+        {
+            Assert.False(field.IsInAttackingState(Color.White));
+        }
+        
+        [Test]
+        public void AttackStateOnlyOneColorTest()
+        {
+            positions[0, 0].Pawn = new Pawn(Color.White);
+            positions[1, 1].Pawn = new Pawn(Color.White);
+            positions[7, 7].Pawn = new Pawn(Color.White);
+            positions[6, 6].Pawn = new Pawn(Color.White);
+            Assert.False(field.IsInAttackingState(Color.White));
+        }
+        
+        [Test]
+        public void AttackStateColorTest()
+        {
+            positions[0, 0].Pawn = new Pawn(Color.White);
+            positions[1, 1].Pawn = new Pawn(Color.Black);
+            Assert.True(field.IsInAttackingState(Color.White));
+        }
+    }
+}

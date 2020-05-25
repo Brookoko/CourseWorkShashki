@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp", "ConsoleApp\Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DependencyInjection", "DependencyInjection\DependencyInjection.csproj", "{3A4444A4-A3DF-43C6-82BD-D4EFA98C83C1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseWorkShashki.Tests", "CourseWorkShashki.Tests\CourseWorkShashki.Tests.csproj", "{B9CCA7CE-9CCA-46D4-80F3-C02AB0616968}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{3A4444A4-A3DF-43C6-82BD-D4EFA98C83C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A4444A4-A3DF-43C6-82BD-D4EFA98C83C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A4444A4-A3DF-43C6-82BD-D4EFA98C83C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9CCA7CE-9CCA-46D4-80F3-C02AB0616968}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9CCA7CE-9CCA-46D4-80F3-C02AB0616968}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9CCA7CE-9CCA-46D4-80F3-C02AB0616968}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9CCA7CE-9CCA-46D4-80F3-C02AB0616968}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
