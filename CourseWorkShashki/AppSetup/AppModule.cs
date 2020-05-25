@@ -1,7 +1,7 @@
-namespace AppSetup
+namespace Checkers.AppSetup
 {
     using AppContext;
-    using Checkers.GameStatus;
+    using GameStatus;
     using Commands;
     using GameField;
     using Movements;

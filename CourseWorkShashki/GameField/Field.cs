@@ -1,4 +1,4 @@
-namespace GameField
+namespace Checkers.GameField
 {
     using System;
     using System.Collections.Generic;

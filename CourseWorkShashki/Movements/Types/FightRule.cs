@@ -1,6 +1,6 @@
-namespace Movements
+namespace Checkers.Movements
 {
-    using Checkers.PathFinding;
+    using PathFinding;
     using Commands;
     using GameField;
     

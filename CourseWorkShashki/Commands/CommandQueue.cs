@@ -1,7 +1,7 @@
-namespace Commands
+namespace Checkers.Commands
 {
     using System.Collections.Generic;
-    using Checkers.GameStatus;
+    using GameStatus;
     using DependencyInjection;
 
     public interface ICommandQueue

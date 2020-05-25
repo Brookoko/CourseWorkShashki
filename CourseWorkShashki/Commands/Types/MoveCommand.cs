@@ -1,6 +1,6 @@
-namespace Commands
+namespace Checkers.Commands
 {
-    using Checkers.GameStatus;
+    using GameStatus;
     using DependencyInjection;
     using GameField;
 

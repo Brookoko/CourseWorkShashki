@@ -1,4 +1,4 @@
-namespace GameField
+namespace Checkers.GameField
 {
     public class Position
     {

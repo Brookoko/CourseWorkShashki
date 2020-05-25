@@ -1,9 +1,9 @@
-namespace Commands
+namespace Checkers.Commands
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Checkers.GameStatus;
-    using Checkers.PathFinding;
+    using GameStatus;
+    using PathFinding;
     using DependencyInjection;
     using GameField;
 

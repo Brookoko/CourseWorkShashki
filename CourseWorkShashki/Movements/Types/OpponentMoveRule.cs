@@ -1,4 +1,4 @@
-namespace Movements
+namespace Checkers.Movements
 {
     using Commands;
     

@@ -1,7 +1,7 @@
-namespace Movements
+namespace Checkers.Movements
 {
     using Checkers;
-    using Checkers.GameStatus;
+    using GameStatus;
     using DependencyInjection;
     using GameField;
     

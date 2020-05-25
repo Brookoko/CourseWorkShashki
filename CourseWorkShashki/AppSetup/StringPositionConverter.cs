@@ -1,4 +1,4 @@
-namespace AppSetup
+namespace Checkers.AppSetup
 {
     using System.Linq;
     using ConsoleApp;

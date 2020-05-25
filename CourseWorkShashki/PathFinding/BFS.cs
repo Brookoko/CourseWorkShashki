@@ -1,6 +1,5 @@
 namespace Checkers.PathFinding
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using GameField;

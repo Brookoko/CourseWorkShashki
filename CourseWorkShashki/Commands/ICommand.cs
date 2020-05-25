@@ -1,4 +1,4 @@
-namespace Commands
+namespace Checkers.Commands
 {
     public interface ICommand
     {

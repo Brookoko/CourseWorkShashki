@@ -1,8 +1,8 @@
-namespace AppSetup
+namespace Checkers.AppSetup
 {
     using System;
     using Checkers;
-    using Checkers.GameStatus;
+    using GameStatus;
     using Commands;
     using ConsoleApp;
     using DependencyInjection;
