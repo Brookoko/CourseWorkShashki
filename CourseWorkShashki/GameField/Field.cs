@@ -9,34 +9,7 @@ namespace GameField
     {
         public readonly Position[,] Positions = new Position[8, 8];
 
-        private readonly Pawn[] checkers = new Pawn[24];
-        
-        public Field()
-        {
-            for (var i = 0; i < 24; i++)
-            {
-                checkers[i] = new Pawn((Color) (i / 12));
-            }
-            for (var i = 0; i < 8; i++)
-            {
-                for (var j = 0; j < 8; j++)
-                {
-                    Positions[i, j] = new Position(i, j);
-                }
-            }
-            for (var k = 0; k < 24; k += 2)
-            {
-                var i = k / 8;
-                var j = k - i * 8 + i % 2;
-                Positions[i, j].Pawn = checkers[k / 2];
-            }
-            for (var k = 0; k < 24; k += 2)
-            {
-                var i = 7 - k / 8;
-                var j = 63 - k - i * 8 + (i % 2 - 1);
-                Positions[i, j].Pawn = checkers[k / 2 + 12];
-            }
-        }
+        public readonly Pawn[] Checkers = new Pawn[24];
         
         public Position GetPosition(int x, int y)
         {
@@ -45,12 +18,6 @@ namespace GameField
                 return Positions[x, y];
             }
             return null;
-        }
-        
-        public bool IsOpponentPawnOnLine(Position from, Position to)
-        {
-            var pawns = PawnsOnLine(from, to);
-            return pawns.Count == 1 && pawns[0].Pawn.Color != from.Pawn.Color;
         }
         
         public List<Position> PawnsOnLine(Position from, Position to)
@@ -64,8 +31,8 @@ namespace GameField
             {
                 x += dx;
                 y += dy;
-                var pos = Positions[x, y];
-                if (pos.Pawn != null && pos != to) pawns.Add(pos);
+                var pos = GetPosition(x, y);
+                if (pos != null && pos.Pawn != null && pos != to) pawns.Add(pos);
             }
             return pawns;
         }
@@ -127,6 +94,12 @@ namespace GameField
                 positions.Add(GetPosition(position.X - i, position.Y - i));
             }
             return positions.Where(p => p != null);
+        }
+        
+        private bool IsOpponentPawnOnLine(Position from, Position to)
+        {
+            var pawns = PawnsOnLine(from, to);
+            return pawns.Count == 1 && pawns[0].Pawn.Color != from.Pawn.Color;
         }
     }
 }
