@@ -1,10 +1,8 @@
 ﻿namespace Checkers.Tests
 {
-    using System.Collections.Generic;
     using System.Linq;
     using GameField;
     using NUnit.Framework;
-    using NUnit.Framework.Constraints;
 
     [TestFixture]
     public class FieldTests
@@ -213,6 +211,33 @@
             positions[0, 0].Pawn = new Pawn(Color.White);
             positions[1, 1].Pawn = new Pawn(Color.Black);
             Assert.True(field.IsInAttackingState(Color.White));
+        }
+        
+        [Test]
+        public void InitialStateTest()
+        {
+            var blackPositions = new[]
+            {
+                (0, 0), (0, 2), (0, 4), (0, 6),
+                (1, 1), (1, 3), (1, 5), (1, 7),
+                (2, 0), (2, 2), (2, 4), (2, 6)
+            };
+            var whitePositions = new[]
+            {
+                (7, 7), (7, 5), (7, 3), (7, 1),
+                (6, 6), (6, 4), (6, 2), (6, 0),
+                (5, 7), (5, 5), (5, 3), (5, 1)
+            };
+            var provider = new FieldProvider();
+            provider.CreateNew();
+            foreach (var (x, y) in blackPositions)
+            {
+                Assert.That(provider.Field.Positions[x, y].Pawn.Color, Is.EqualTo(Color.Black));
+            }
+            foreach (var (x, y) in whitePositions)
+            {
+                Assert.That(provider.Field.Positions[x, y].Pawn.Color, Is.EqualTo(Color.White));
+            }
         }
     }
 }
