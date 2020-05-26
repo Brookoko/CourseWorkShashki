@@ -29,10 +29,5 @@ namespace Checkers.PathFinding
             newPath.Opponents.Add(opponent.First());
             return newPath;
         }
-
-        public override string ToString()
-        {
-            return $"{path.First()} {next} {opponent.FirstOrDefault()}";
-        }
     }
 }
