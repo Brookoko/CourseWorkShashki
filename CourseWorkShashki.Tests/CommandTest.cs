@@ -129,7 +129,7 @@ namespace Checkers.Tests
             var fight = CreateFight(pawn, opponent, field.Positions[7, 7]);
             fight.Execute();
             fight.Undo();
-            Assert.True(pawn.IsDame);
+            Assert.False(pawn.IsDame);
         }
         
         [Test]
