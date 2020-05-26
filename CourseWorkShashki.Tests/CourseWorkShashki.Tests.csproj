@@ -42,6 +42,7 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="CommandTest.cs" />
         <Compile Include="FieldTests.cs" />
         <Compile Include="GameStatusTest.cs" />
         <Compile Include="MovementRuleTests.cs" />
@@ -54,6 +55,10 @@
       <ProjectReference Include="..\CourseWorkShashki\CourseWorkShashki.csproj">
         <Project>{9e3acec6-180f-48c3-8d3d-263a41b06118}</Project>
         <Name>CourseWorkShashki</Name>
+      </ProjectReference>
+      <ProjectReference Include="..\DependencyInjection\DependencyInjection.csproj">
+        <Project>{3a4444a4-a3df-43c6-82bd-d4efa98c83c1}</Project>
+        <Name>DependencyInjection</Name>
       </ProjectReference>
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

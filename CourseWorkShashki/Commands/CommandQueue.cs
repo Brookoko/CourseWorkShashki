@@ -1,7 +1,6 @@
 namespace Checkers.Commands
 {
     using System.Collections.Generic;
-    using GameStatus;
     using DependencyInjection;
 
     public interface ICommandQueue
@@ -15,9 +14,6 @@ namespace Checkers.Commands
     
     public class CommandQueue : ICommandQueue
     {
-        [Inject]
-        public IGameStatusProvider GameStatusProvider { get; set; }
-
         [Inject]
         public IInjectionBinder InjectionBinder { get; set; }
         
