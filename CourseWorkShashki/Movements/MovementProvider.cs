@@ -1,39 +1,64 @@
 namespace Checkers.Movements
 {
     using Checkers;
-    using GameStatus;
+    using Commands;
     using DependencyInjection;
-    using GameField;
+    using Helper;
+    using PathFinding;
     
     public interface IMovementProvider
     {
-        IMovementRule RuleFor(Position from, Position to, Field field);
+        bool IsValid(Move move);
+
+        ICommand ToCommand(Move move);
     }
     
     public class MovementProvider : IMovementProvider
     {
-        [Inject]
-        public IGameStatusProvider GameStatusProvider { get; set; }
+        private IMovementRule rule;
         
-        public IMovementRule RuleFor(Position from, Position to, Field field)
+        [PostConstruct]
+        public void Prepare()
         {
-            if (from.Pawn == null) return new NoPawnRule();
-            if (!from.Pawn.CanMove(GameStatusProvider.Status)) return new OpponentMoveRule();
-            if (to.Pawn != null) return new OccupiedRule();
+            var noPawn = new NoPawnRule();
+            var opponent = new OpponentMoveRule();
+            var occupied = new OccupiedRule();
             
-            return from.Pawn.IsDame ? GetDameRule(from, to, field) : GetSimpleRule(from, to, field);
+            var attackBranch = new RuleBranch
+            {
+                IsValid = move => move.Status.IsAttacking(),
+                Rule = new FightRule()
+            };
+            
+            var dameBranch = new RuleBranch
+            {
+                IsValid = move => move.From.Pawn.IsDame,
+                Rule = new DameMovementRule()
+            };
+            
+            var moveBranch = new RuleBranch
+            {
+                IsValid = move => move.Status.IsMoving(),
+                Rule = new BranchingRule(dameBranch) {Successor = new SimpleMovementRule()}
+            };
+            
+            var branching = new BranchingRule(attackBranch, moveBranch) {Successor = new GameIsOverRule()};
+
+            noPawn.Successor = opponent;
+            opponent.Successor = occupied;
+            occupied.Successor = branching;
+            rule = noPawn;
         }
         
-        private IMovementRule GetSimpleRule(Position from, Position to, Field field)
+        public bool IsValid(Move move)
         {
-            if (GameStatusProvider.Status.IsAttacking()) return new FightRule(from, to, field);
-            return new SimpleMovementRule(from, to);
+            return rule.IsValid(move);
         }
         
-        private IMovementRule GetDameRule(Position from, Position to, Field field)
+        public ICommand ToCommand(Move move)
         {
-            if (GameStatusProvider.Status.IsAttacking()) return new FightRule(from, to, field);
-            return new DameMovementRule(from, to, field);
+            if (move.Status.IsAttacking()) return new FightCommand(new BFS(move.From, move.To, move.Field).FindPath());
+            return new MoveCommand(move.From, move.To);
         }
     }
 }

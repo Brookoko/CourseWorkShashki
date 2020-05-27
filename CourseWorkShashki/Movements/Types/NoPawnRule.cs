@@ -1,19 +1,17 @@
 namespace Checkers.Movements
 {
-    using Commands;
-    
     public class NoPawnRule : IMovementRule
     {
-        public string Reason => "No pawn is selected";
+        public IMovementRule Successor { get; set; }
         
-        public bool IsValid()
+        public bool IsValid(Move move)
         {
-            return false;
-        }
-        
-        public ICommand ToCommand()
-        {
-            return null;
+            if (move.From.Pawn == null)
+            {
+                move.RejectionReason = "No pawn is selected";
+                return false;
+            }
+            return Successor?.IsValid(move) ?? true;
         }
     }
 }

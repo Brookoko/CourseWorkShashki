@@ -44,6 +44,11 @@ namespace Checkers
             }
         }
         
+        public static bool IsMoving(this Status status)
+        {
+            return status == Status.WhiteMove || status == Status.BlackMove;
+        }
+        
         public static bool IsAttacking(this Status status)
         {
             return status == Status.WhiteAttack || status == Status.BlackAttack;

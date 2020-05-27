@@ -51,9 +51,13 @@
         <Compile Include="GameField\FieldProvider.cs" />
         <Compile Include="GameField\Position.cs" />
         <Compile Include="GameField\Pawn.cs" />
+        <Compile Include="Movements\Move.cs" />
         <Compile Include="Movements\MovementProvider.cs" />
         <Compile Include="Movements\IMovementRule.cs" />
         <Compile Include="Movements\Types\DameMovementRule.cs" />
+        <Compile Include="Movements\Types\Helper\BranchingRule.cs" />
+        <Compile Include="Movements\Types\Helper\GameIsOverRule.cs" />
+        <Compile Include="Movements\Types\Helper\RuleBranch.cs" />
         <Compile Include="Movements\Types\NoPawnRule.cs" />
         <Compile Include="Movements\Types\OccupiedRule.cs" />
         <Compile Include="Movements\Types\OpponentMoveRule.cs" />

@@ -1,37 +1,20 @@
 namespace Checkers.Movements
 {
+    using System;
     using PathFinding;
-    using Commands;
-    using GameField;
     
     public class FightRule : IMovementRule
     {
-        public string Reason { get; private set; }
+        public IMovementRule Successor { get; set; }
         
-        private readonly Position from;
-        private readonly Position to;
-        private readonly Field field;
-        
-        public FightRule(Position from, Position to, Field field)
+        public bool IsValid(Move move)
         {
-            this.from = from;
-            this.to = to;
-            this.field = field;
-        }
-        
-        public bool IsValid()
-        {
-            if (new BFS(from, to, field).FindPath() == null)
+            if (new BFS(move.From, move.To, move.Field).FindPath() == null)
             {
-                Reason = "No opponent pawn in the way";
+                move.RejectionReason = "No opponent pawn in the way";
                 return false;
             }
-            return true;
-        }
-        
-        public ICommand ToCommand()
-        {
-            return new FightCommand(from, to, new BFS(from, to, field).FindPath());
+            return Successor?.IsValid(move) ?? true;
         }
     }
 }

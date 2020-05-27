@@ -22,10 +22,10 @@ namespace Checkers.Commands
         
         private bool turnedToDame;
         
-        public FightCommand(Position from, Position to, Path path)
+        public FightCommand(Path path)
         {
-            this.from = from;
-            this.to = to;
+            from = path.First();
+            to = path.Last();
             this.path = path;
             pawns = path.Opponents.Select(p => p.Pawn).ToList();
         }

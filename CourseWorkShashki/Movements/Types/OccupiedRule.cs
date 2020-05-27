@@ -1,19 +1,17 @@
 namespace Checkers.Movements
 {
-    using Commands;
-
     public class OccupiedRule : IMovementRule
     {
-        public string Reason => "Target position is occupied";
+        public IMovementRule Successor { get; set; }
         
-        public bool IsValid()
+        public bool IsValid(Move move)
         {
-            return false;
-        }
-        
-        public ICommand ToCommand()
-        {
-            return null;
+            if (move.To.Pawn != null)
+            {
+                move.RejectionReason = "Target position is occupied";
+                return false;
+            }
+            return Successor?.IsValid(move) ?? true;
         }
     }
 }

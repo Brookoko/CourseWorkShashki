@@ -1,19 +1,17 @@
 namespace Checkers.Movements
 {
-    using Commands;
-    
     public class OpponentMoveRule : IMovementRule
     {
-        public string Reason => "Pawns cannot be moved during opponent turn";
+        public IMovementRule Successor { get; set; }
         
-        public bool IsValid()
+        public bool IsValid(Move move)
         {
-            return false;
-        }
-        
-        public ICommand ToCommand()
-        {
-            return null;
+            if (move.From.Pawn.Color != move.Status.ToColor())
+            {
+                move.RejectionReason = "Pawns cannot be moved during opponent turn";
+                return false;
+            }
+            return Successor?.IsValid(move) ?? true;
         }
     }
 }

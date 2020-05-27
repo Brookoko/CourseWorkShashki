@@ -1,43 +1,25 @@
 namespace Checkers.Movements
 {
     using Checkers;
-    using Commands;
-    using GameField;
-
+    
     public class DameMovementRule : IMovementRule
     {
-        public string Reason { get; private set; }
+        public IMovementRule Successor { get; set; }
         
-        private readonly Position from;
-        private readonly Position to;
-        private readonly Field field;
-        
-        public DameMovementRule(Position from, Position to, Field field)
+        public bool IsValid(Move move)
         {
-            this.from = from;
-            this.to = to;
-            this.field = field;
-        }
-        
-        public bool IsValid()
-        {
-            if (!Utils.IsStraightLine(from, to) && !Utils.IsDiagonal(from, to))
+            if (!Utils.IsStraightLine(move.From, move.To) && !Utils.IsDiagonal(move.From, move.To))
             {
-                Reason = "Invalid movement direction";
+                move.RejectionReason = "Invalid movement direction";
                 return false;
             }
-            var pawns = field.PawnsOnLine(from, to);
+            var pawns = move.Field.PawnsOnLine(move.From, move.To);
             if (pawns.Count != 0)
             {
-                Reason = "Pawns are in the way";
+                move.RejectionReason = "Pawns are in the way";
                 return false;
             }
             return true;
-        }
-        
-        public ICommand ToCommand()
-        {
-            return new MoveCommand(from, to);
         }
     }
 }

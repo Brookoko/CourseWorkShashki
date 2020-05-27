@@ -1,35 +1,19 @@
 namespace Checkers.Movements
 {
     using Checkers;
-    using Commands;
-    using GameField;
-
+    
     public class SimpleMovementRule : IMovementRule
     {
-        public string Reason { get; private set; }
+        public IMovementRule Successor { get; set; }
         
-        private readonly Position from;
-        private readonly Position to;
-        
-        public SimpleMovementRule(Position from, Position to)
+        public bool IsValid(Move move)
         {
-            this.from = from;
-            this.to = to;
-        }
-        
-        public bool IsValid()
-        {
-            if (!Utils.IsDiagonalInDirection(from, to, from.Pawn.Color.ToDirection()))
+            if (!Utils.IsDiagonalInDirection(move.From, move.To, move.From.Pawn.Color.ToDirection()))
             {
-                Reason = "Invalid target position";;
+                move.RejectionReason = "Invalid move direction";
                 return false;
             }
-            return true;
-        }
-        
-        public ICommand ToCommand()
-        {
-            return new MoveCommand(from, to);
+            return Successor?.IsValid(move) ?? true;
         }
     }
 }

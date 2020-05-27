@@ -1,13 +1,9 @@
 namespace Checkers.Movements
 {
-    using Commands;
-    
     public interface IMovementRule
     {
-        string Reason { get; }
+        IMovementRule Successor { get; set; }
         
-        bool IsValid();
-        
-        ICommand ToCommand();
+        bool IsValid(Move move);
     }
 }

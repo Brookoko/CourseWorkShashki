@@ -37,7 +37,7 @@ namespace Checkers.AppSetup
             if (Options.ValidateCommand(input)) return true;
             if (GameStatusProvider.Status.IsWinStatus()) return false;
             var (from, to) = converter.ToPositions(input, FieldProvider.Field);
-            return ValidPositions(from, to) && TryGetMovement(from, to, out _);
+            return ValidPositions(from, to) && IsValidMove(from, to);
         }
         
         private bool ValidPositions(Position from, Position to)
@@ -47,14 +47,25 @@ namespace Checkers.AppSetup
             return from != null && to != null;
         }
         
-        private bool TryGetMovement(Position from, Position to, out IMovementRule rule)
+        private bool IsValidMove(Position from, Position to)
         {
-            rule = MovementProvider.RuleFor(from, to, FieldProvider.Field);
-            if (rule.IsValid()) return true;
-            Console.WriteLine(rule.Reason);
+            var move = CreateMove(from, to);
+            if (MovementProvider.IsValid(move)) return true;
+            Console.WriteLine(move.RejectionReason);
             return false;
         }
 
+        private Move CreateMove(Position from, Position to)
+        {
+            return new Move
+            {
+                From = from,
+                To = to,
+                Field = FieldProvider.Field,
+                Status = GameStatusProvider.Status
+            };
+        }
+        
         public void RunCommand(string input)
         {
             if (Options.ValidateCommand(input))
@@ -63,8 +74,8 @@ namespace Checkers.AppSetup
                 return;
             }
             var (from, to) = converter.ToPositions(input, FieldProvider.Field);
-            var rule = MovementProvider.RuleFor(from, to, FieldProvider.Field);
-            CommandQueue.Execute(rule.ToCommand());
+            var move = CreateMove(from, to);
+            CommandQueue.Execute(MovementProvider.ToCommand(move));
         }
         
         public void PrintPrompt()

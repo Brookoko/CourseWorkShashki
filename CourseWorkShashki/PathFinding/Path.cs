@@ -22,6 +22,11 @@ namespace Checkers.PathFinding
             Positions.Add(position);
         }
         
+        public Position Last()
+        {
+            return Positions.First();
+        }
+        
         public Position First()
         {
             return Positions.Last();
