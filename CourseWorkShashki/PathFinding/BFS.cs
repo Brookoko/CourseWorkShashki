@@ -19,20 +19,20 @@ namespace Checkers.PathFinding
         
         public Path FindPath()
         {
-            var paths = new List<Path> {new Path(to)};
-            while (!paths.Any(p => p.Has(from)) && paths.Count != 0)
+            var paths = new List<Path> {new Path(from)};
+            while (!paths.Any(p => p.Has(to)) && paths.Count != 0)
             {
-                var branches = paths.SelectMany(path => field.PossibleAttackPositions(path.First(), from.Pawn.IsDame)
+                var branches = paths.SelectMany(path => field.PossibleAttackPositions(path.Last(), path.TurnToDame || from.Pawn.IsDame)
                     .Where(pos => !path.Has(pos))
-                    .Where(pos => pos.Pawn == null || pos == from)
-                    .Select(pos => new Branch(path, pos, field.PawnsOnLine(path.First(), pos))))
+                    .Where(pos => pos.Pawn == null || path.Opponents.Contains(pos))
+                    .Select(pos => new Branch(path, pos, field.PawnsOnLine(path.Last(), pos))))
                     .ToList();
                 paths = branches.Where(branch => branch.IsValid(from.Pawn))
-                    .Select(branch => branch.CreatePath())
+                    .Select(branch => branch.CreatePath(from.Pawn))
                     .ToList();
             }
             return paths
-                .Where(path => path.Has(from))
+                .Where(path => path.Has(to))
                 .OrderBy(path => path.Length).FirstOrDefault();
         }
     }

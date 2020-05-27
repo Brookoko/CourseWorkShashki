@@ -8,6 +8,7 @@ namespace Checkers.PathFinding
     {
         public readonly List<Position> Opponents = new List<Position>();
         public readonly List<Position> Positions = new List<Position>();
+        public bool TurnToDame { get; set; } 
         
         public int Length => Positions.Count;
         
@@ -24,12 +25,12 @@ namespace Checkers.PathFinding
         
         public Position Last()
         {
-            return Positions.First();
+            return Positions.Last();
         }
         
         public Position First()
         {
-            return Positions.Last();
+            return Positions.First();
         }
         
         public bool Has(Position position)

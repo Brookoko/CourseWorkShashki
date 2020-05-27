@@ -22,8 +22,14 @@ namespace Checkers.GameField
         
         public bool TryTurnToDame()
         {
-            if (!Pawn.IsDame && Pawn.Color == Color.White && X == 0) return Pawn.IsDame = true;
-            if (!Pawn.IsDame && Pawn.Color == Color.Black && X == 7) return Pawn.IsDame = true;
+            if (TryTurnToDame(Pawn)) return Pawn.IsDame = true;
+            return false;
+        }
+        
+        public bool TryTurnToDame(Pawn pawn)
+        {
+            if (!pawn.IsDame && pawn.Color == Color.White && X == 0) return true;
+            if (!pawn.IsDame && pawn.Color == Color.Black && X == 7) return true;
             return false;
         }
         

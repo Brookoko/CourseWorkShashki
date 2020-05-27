@@ -1,5 +1,6 @@
 namespace Checkers.Commands
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using GameStatus;
@@ -19,25 +20,29 @@ namespace Checkers.Commands
         private readonly Position to;
         private readonly Path path;
         private readonly List<Pawn> pawns;
+        private readonly bool turnToDame;
         
-        private bool turnedToDame;
+        private Status lastStatus;
         
         public FightCommand(Path path)
         {
+            this.path = path;
             from = path.First();
             to = path.Last();
-            this.path = path;
+            turnToDame = path.TurnToDame;
             pawns = path.Opponents.Select(p => p.Pawn).ToList();
         }
         
         public void Execute()
         {
+            if (turnToDame) from.Pawn.IsDame = true;
             to.Pawn = from.RemovePawn();
-            turnedToDame = to.TryTurnToDame();
             foreach (var opponent in path.Opponents)
             {
+                Console.WriteLine($"Opponent: {opponent}");
                 opponent.Pawn = null;
             }
+            lastStatus = GameStatusProvider.Status;
             GoToNext();
         }
         
@@ -49,13 +54,13 @@ namespace Checkers.Commands
         
         public void Undo()
         {
-            GoToNext();
+            if (turnToDame) to.Pawn.IsDame = false;
             from.Pawn = to.RemovePawn();
-            if (turnedToDame) from.Pawn.IsDame = false;
             for (var i = 0; i < path.Opponents.Count; i++)
             {
                 path.Opponents[i].Pawn = pawns[i];
             }
+            GameStatusProvider.UpdateStatus(lastStatus);
         }
     }
 }
