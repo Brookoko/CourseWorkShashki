@@ -8,7 +8,7 @@ namespace Checkers.Movements
         
         public bool IsValid(Move move)
         {
-            if (!Utils.IsStraightLine(move.From, move.To) && !Utils.IsDiagonal(move.From, move.To))
+            if (!Utils.IsDiagonal(move.From, move.To))
             {
                 move.RejectionReason = "Invalid movement direction";
                 return false;

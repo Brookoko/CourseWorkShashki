@@ -84,10 +84,6 @@ namespace Checkers.GameField
             var positions = new List<Position>();
             for (var i = 1; i < 8; i++)
             {
-                positions.Add(GetPosition(position.X + i, position.Y));
-                positions.Add(GetPosition(position.X - i, position.Y));
-                positions.Add(GetPosition(position.X, position.Y + i));
-                positions.Add(GetPosition(position.X, position.Y - i));
                 positions.Add(GetPosition(position.X + i, position.Y + i));
                 positions.Add(GetPosition(position.X + i, position.Y - i));
                 positions.Add(GetPosition(position.X - i, position.Y + i));

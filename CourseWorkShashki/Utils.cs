@@ -15,11 +15,6 @@ namespace Checkers
         {
             return Math.Abs(to.X - from.X) == Math.Abs(to.Y - from.Y);
         }
-
-        public static bool IsStraightLine(Position from, Position to)
-        {
-            return from.X == to.X && from.Y != to.Y || from.Y == to.Y && from.X != to.X;
-        }
         
         public static int ToDirection(this Color color) => color == Color.Black ? 1 : -1;
         
