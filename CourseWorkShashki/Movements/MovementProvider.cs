@@ -23,6 +23,7 @@ namespace Checkers.Movements
             var noPawn = new NoPawnRule();
             var opponent = new OpponentMoveRule();
             var occupied = new OccupiedRule();
+            var continueAttack = new ContinueAttackRule();
             
             var attackBranch = new RuleBranch
             {
@@ -46,7 +47,8 @@ namespace Checkers.Movements
 
             noPawn.Successor = opponent;
             opponent.Successor = occupied;
-            occupied.Successor = branching;
+            occupied.Successor = continueAttack;
+            continueAttack.Successor = branching;
             rule = noPawn;
         }
         

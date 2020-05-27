@@ -54,6 +54,7 @@
         <Compile Include="Movements\Move.cs" />
         <Compile Include="Movements\MovementProvider.cs" />
         <Compile Include="Movements\IMovementRule.cs" />
+        <Compile Include="Movements\Types\ContinueAttackRule.cs" />
         <Compile Include="Movements\Types\DameMovementRule.cs" />
         <Compile Include="Movements\Types\Helper\BranchingRule.cs" />
         <Compile Include="Movements\Types\Helper\GameIsOverRule.cs" />

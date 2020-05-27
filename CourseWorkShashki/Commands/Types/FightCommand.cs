@@ -39,7 +39,6 @@ namespace Checkers.Commands
             to.Pawn = from.RemovePawn();
             foreach (var opponent in path.Opponents)
             {
-                Console.WriteLine($"Opponent: {opponent}");
                 opponent.Pawn = null;
             }
             lastStatus = GameStatusProvider.Status;

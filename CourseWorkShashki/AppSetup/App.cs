@@ -21,10 +21,10 @@ namespace Checkers.AppSetup
         {
             var start = (OptionConsoleMenu) binder.Inject(new OptionConsoleMenu());
             var game = (GameMenu) binder.Inject(new GameMenu());
-            start.Options.AddOption("exit", null, _ => StopProcessingInput());
             start.Options.AddOption("game", null, _ => CreateNewGame(game));
-            game.Options.AddOption("back", null, _ => ChangeOptions(start));
+            start.Options.AddOption("exit", null, _ => StopProcessingInput());
             game.Options.AddOption("restart", null, _ => CreateNewGame(game));
+            game.Options.AddOption("back", null, _ => ChangeOptions(start));
             ConsoleMenu = start;
         }
         
