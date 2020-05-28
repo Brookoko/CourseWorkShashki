@@ -12,6 +12,8 @@ namespace ConsoleApp
         public List<string> Strings { get; } = new List<string>();
         
         public List<int> Ints { get; } = new List<int>();
+    
+        public int Count => Ints.Count + Strings.Count;
         
         public Parameters AddParameter(string pattern, string parameter)
         {
@@ -28,7 +30,5 @@ namespace ConsoleApp
             }
             return this;
         }
-        
-        public int Count => Ints.Count + Strings.Count;
     }
 }

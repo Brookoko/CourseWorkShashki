@@ -6,7 +6,7 @@ namespace ConsoleApp
         
         void ProcessInput();
 
-        void ChangeOptions(IConsoleMenu consoleMenu);
+        void ChangeMenu(IConsoleMenu consoleMenu);
 
         void Exit();
     }

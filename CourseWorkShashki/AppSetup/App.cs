@@ -24,7 +24,7 @@ namespace Checkers.AppSetup
             start.Options.AddOption("game", null, _ => CreateNewGame(game));
             start.Options.AddOption("exit", null, _ => StopProcessingInput());
             game.Options.AddOption("restart", null, _ => CreateNewGame(game));
-            game.Options.AddOption("back", null, _ => ChangeOptions(start));
+            game.Options.AddOption("back", null, _ => ChangeMenu(start));
             ConsoleMenu = start;
         }
         
@@ -33,7 +33,7 @@ namespace Checkers.AppSetup
             CommandQueue.Reset();
             FieldProvider.CreateNew();
             GameStatusProvider.UpdateStatus(Status.WhiteMove);
-            ChangeOptions(game);
+            ChangeMenu(game);
         }
     }
 }

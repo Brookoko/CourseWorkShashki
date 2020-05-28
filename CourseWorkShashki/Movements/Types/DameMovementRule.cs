@@ -16,7 +16,7 @@ namespace Checkers.Movements
             var pawns = move.Field.PawnsOnLine(move.From, move.To);
             if (pawns.Count != 0)
             {
-                move.RejectionReason = "Pawns are in the way";
+                move.RejectionReason = "Pawns are on a way";
                 return false;
             }
             return Successor?.IsValid(move) ?? true;

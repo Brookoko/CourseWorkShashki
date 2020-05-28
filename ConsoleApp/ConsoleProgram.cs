@@ -24,7 +24,7 @@ namespace ConsoleApp
             }
         }
         
-        public void ChangeOptions(IConsoleMenu consoleMenu)
+        public void ChangeMenu(IConsoleMenu consoleMenu)
         {
             ConsoleMenu = consoleMenu;
         }
