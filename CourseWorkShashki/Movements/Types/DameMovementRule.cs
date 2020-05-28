@@ -19,7 +19,7 @@ namespace Checkers.Movements
                 move.RejectionReason = "Pawns are in the way";
                 return false;
             }
-            return true;
+            return Successor?.IsValid(move) ?? true;
         }
     }
 }
