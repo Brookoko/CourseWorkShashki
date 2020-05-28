@@ -133,11 +133,9 @@
         public void PossiblePositionsDameTest()
         {
             var attacks = field.PossibleAttackPositions(positions[0, 0], true).ToList();
-            Assert.That(attacks, Has.Count.EqualTo(21));
+            Assert.That(attacks, Has.Count.EqualTo(7));
             for (var i = 1; i < 8; i++)
             {
-                Assert.That(attacks, Has.Member(positions[0, i]));
-                Assert.That(attacks, Has.Member(positions[i, 0]));
                 Assert.That(attacks, Has.Member(positions[i, i]));
             }
         }

@@ -44,6 +44,25 @@ namespace Checkers.Tests
         {
             Assert.False(status.IsAttacking());
         }
+        
+        [Test]
+        [TestCase(Status.WhiteMove)]
+        [TestCase(Status.BlackMove)]
+        public void MoveStatusTest(Status status)
+        {
+            Assert.True(status.IsMoving());
+        }
+        
+        [Test]
+        [TestCase(Status.Menu)]
+        [TestCase(Status.WhiteWin)]
+        [TestCase(Status.WhiteAttack)]
+        [TestCase(Status.BlackWin)]
+        [TestCase(Status.BlackAttack)]
+        public void NotMoveStatusTest(Status status)
+        {
+            Assert.False(status.IsMoving());
+        }
 
         [Test]
         [TestCase(Status.Menu)]
@@ -102,30 +121,6 @@ namespace Checkers.Tests
         {
             Assert.That(1, Is.EqualTo(Color.Black.ToDirection()));
             Assert.That(-1, Is.EqualTo(Color.White.ToDirection()));
-        }
-        
-        [Test]
-        public void StraightHorizontalTest()
-        {
-            var from = new Position(0, 0);
-            var to = new Position(0, 1);
-            Assert.True(Utils.IsStraightLine(from, to));
-        }
-        
-        [Test]
-        public void StraightVerticalTest()
-        {
-            var from = new Position(0, 0);
-            var to = new Position(1, 0);
-            Assert.True(Utils.IsStraightLine(from, to));
-        }
-        
-        [Test]
-        public void NotStraightTest()
-        {
-            var from = new Position(0, 0);
-            var to = new Position(1, 2);
-            Assert.False(Utils.IsStraightLine(from, to));
         }
         
         [Test]

@@ -151,8 +151,9 @@ namespace Checkers.Tests
             field.Positions[1, 1].Pawn = opponent;
             var path = new Path(field.Positions[0, 0]);
             path.Opponents.Add(field.Positions[1, 1]);
-            path.Positions.Add(field.Positions[2, 2]);
-            var fight = new FightCommand(field.Positions[0, 0], target, path)
+            path.Positions.Add(target);
+            path.TurnToDame = target.TryTurnToDame(pawn);
+            var fight = new FightCommand(path)
             {
                 GameStatusProvider = statusProvider,
                 FieldProvider = fieldProvider

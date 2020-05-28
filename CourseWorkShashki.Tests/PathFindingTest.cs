@@ -71,7 +71,7 @@ namespace Checkers.Tests
             var target = new Position(2, 2);
             var opponent = new Position(1, 1) {Pawn = new Pawn(Color.White)};
             var branch = new Branch(path, target, new List<Position> {opponent});
-            var newPath = branch.CreatePath();
+            var newPath = branch.CreatePath(new Pawn(Color.White));
             Assert.That(newPath.Length, Is.EqualTo(2));
             Assert.That(newPath.Positions, Has.Member(target));
             Assert.That(newPath.Opponents, Has.Member(opponent));
@@ -107,13 +107,23 @@ namespace Checkers.Tests
         public void DamePathTest()
         {
             field.Positions[0, 0].Pawn = new Pawn(Color.Black) {IsDame = true};
-            field.Positions[0, 1].Pawn = new Pawn(Color.White);
-            field.Positions[6, 7].Pawn = new Pawn(Color.White);
+            field.Positions[1, 1].Pawn = new Pawn(Color.White);
+            field.Positions[3, 3].Pawn = new Pawn(Color.White);
             var path = new BFS(field.Positions[0, 0], field.Positions[7, 7], field).FindPath();
-            Assert.That(path.Opponents, Has.Member(field.Positions[0, 1]));
-            Assert.That(path.Opponents, Has.Member(field.Positions[6, 7]));
-            Assert.That(path.Positions, Has.Member(field.Positions[0, 7]));
+            Assert.That(path.Opponents, Has.Member(field.Positions[1, 1]));
+            Assert.That(path.Opponents, Has.Member(field.Positions[3, 3]));
+            Assert.That(path.Positions, Has.Member(field.Positions[2, 2]));
             Assert.That(path.Positions, Has.Member(field.Positions[7, 7]));
+        }
+        
+        [Test]
+        public void TurnDameTest()
+        {
+            field.Positions[2, 0].Pawn = new Pawn(Color.White);
+            field.Positions[1, 1].Pawn = new Pawn(Color.Black);
+            field.Positions[1, 3].Pawn = new Pawn(Color.Black);
+            var path = new BFS(field.Positions[2, 0], field.Positions[2, 4], field).FindPath();
+            Assert.True(path.TurnToDame);
         }
     }
 }
